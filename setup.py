@@ -43,6 +43,7 @@ setup(
     install_requires=[
         'five.grok',
         'plone.api',
+        'plone.directives.form',
         'setuptools',
     ],
     extras_require={
