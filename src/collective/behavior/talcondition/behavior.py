@@ -45,4 +45,4 @@ class TALCondition(object):
     tal_condition = property(get_tal_condition, set_tal_condition)
 
     def evaluate(self):
-        return evaluateExpressionFor(self.context)
+        return evaluateExpressionFor(self)
