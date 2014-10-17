@@ -4,3 +4,5 @@ include =
 omit =
     */test*
     */upgrades/*
+    src/collective/__init__.py
+    src/collective/behavior/__init__.py
