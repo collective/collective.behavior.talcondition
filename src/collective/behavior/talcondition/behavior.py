@@ -1,17 +1,13 @@
 # -*- coding: utf-8 -*-
-import logging
 from zope import schema
 from zope.component import adapts
 from zope.interface import alsoProvides
 from zope.interface import implements
 from collective.behavior.talcondition import _
+from collective.behavior.talcondition.utils import evaluateExpressionFor
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
-from Products.CMFCore.Expression import Expression, createExprContext
-from Products.CMFCore.utils import getToolByName
-
-WRONG_TAL_CONDITION = "The TAL expression '%s' for element at '%s' is wrong.  Original exception : %s"
 
 
 class ITALCondition(model.Schema):
@@ -49,23 +45,4 @@ class TALCondition(object):
     tal_condition = property(get_tal_condition, set_tal_condition)
 
     def evaluate(self):
-        res = True
-        # Check condition
-        tal_condition = self.context.tal_condition.strip()
-        if tal_condition:
-            portal = getToolByName(self.context, 'portal_url').getPortalObject()
-            ctx = createExprContext(self.context.aq_inner.aq_parent,
-                                    portal,
-                                    self.context)
-            ctx.setGlobal('member', getToolByName(self.context, 'portal_membership').getAuthenticatedMember())
-            ctx.setGlobal('context', self.context)
-            ctx.setGlobal('portal', portal)
-            try:
-                res = Expression(tal_condition)(ctx)
-            except Exception, e:
-                logger = logging.getLogger('collective.behavior.talcondition')
-                logger.warn(WRONG_TAL_CONDITION % (self.context.tal_condition,
-                                                   self.context.absolute_url(),
-                                                   str(e)))
-                res = False
-        return res
+        return evaluateExpressionFor(self.context)

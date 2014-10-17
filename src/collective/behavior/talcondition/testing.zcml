@@ -5,6 +5,10 @@
 
   <include file="configure.zcml" />
 
+  <class class="Products.ATContentTypes.content.document.ATDocument">
+    <implements interface="collective.behavior.talcondition.interfaces.ITALConditionable" />
+  </class>
+
   <genericsetup:registerProfile
       name="testing"
       title="collective.behavior.talcondition tests"

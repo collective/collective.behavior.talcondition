@@ -22,6 +22,11 @@
         factory=".behavior.TALCondition"
         />
 
+    <adapter factory=".extender.TALConditionExtender"
+             for=".interfaces.ITALConditionable"
+             provides="archetypes.schemaextender.interfaces.ISchemaExtender"
+             name="collective.behavior.talcondition.extender" />
+
     <genericsetup:registerProfile
         name="default"
         title="collective.behavior.talcondition"
