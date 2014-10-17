@@ -13,6 +13,8 @@ def evaluateExpressionFor(obj):
     res = True
     # Check condition
     tal_condition = obj.tal_condition.strip()
+    if hasattr(obj, 'context'):
+        obj = obj.context
     if tal_condition:
         portal = getToolByName(obj, 'portal_url').getPortalObject()
         ctx = createExprContext(obj.aq_inner.aq_parent,
