@@ -12,7 +12,7 @@ def evaluateExpressionFor(obj):
     """
     res = True
     # Check condition
-    tal_condition = obj.tal_condition.strip()
+    tal_condition = obj.tal_condition and obj.tal_condition.strip() or ''
     if hasattr(obj, 'context'):
         obj = obj.context
     if tal_condition:

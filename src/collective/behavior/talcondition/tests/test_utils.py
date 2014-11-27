@@ -42,3 +42,15 @@ class TestUtils(IntegrationTestCase):
         applyExtender(self.portal, meta_types=('ATFolder', ))
         # now the field is available
         self.assertTrue(hasattr(testfolder, 'tal_condition'))
+
+    def test_empty_condition(self):
+        # create a testitem
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory(id='testitem',
+                                  type_name='testtype',
+                                  title='Test type')
+        testitem = self.portal.testitem
+        adapted = ITALCondition(testitem)
+        # using a wrong expression does not break anything
+        adapted.tal_condition = None
+        self.assertTrue(adapted.evaluate())
