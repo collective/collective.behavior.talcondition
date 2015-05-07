@@ -38,7 +38,7 @@ def applyExtender(portal, meta_types):
       We add a 'tal_condition' field using archetypes.schemaextender
       to every given p_meta_types.
     """
-    logger.info("Adding field 'tal_condition' : updating the schema of every Collections...")
+    logger.info("Adding field 'tal_condition' : updating the schema for meta_types %s" % ','.join(meta_types))
     at_tool = getToolByName(portal, 'archetype_tool')
     catalog = getToolByName(portal, 'portal_catalog')
     catalog.ZopeFindAndApply(portal,
