@@ -6,6 +6,7 @@ from collective.behavior.talcondition.testing import IntegrationTestCase
 from collective.behavior.talcondition.behavior import ITALCondition
 from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.utils import applyExtender
+from collective.behavior.talcondition.utils import evaluateExpressionFor
 
 
 class TestUtils(IntegrationTestCase):
@@ -54,3 +55,19 @@ class TestUtils(IntegrationTestCase):
         # using a wrong expression does not break anything
         adapted.tal_condition = None
         self.assertTrue(adapted.evaluate())
+
+    def test_bypass_for_manager(self):
+        """In this case, no matter the expression is False,
+           it will return True if current user is 'Manager'."""
+        # create a testitem
+        login(self.portal, TEST_USER_NAME)
+        self.portal.invokeFactory(id='testitem',
+                                  type_name='testtype',
+                                  title='Test type')
+        testitem = self.portal.testitem
+        adapted = ITALCondition(testitem)
+        # using a wrong expression does not break anything
+        adapted.tal_condition = "python:False"
+        self.assertFalse(evaluateExpressionFor(adapted, bypass_for_manager=False))
+        # as current user is Manager, he can bypass the expression result
+        self.assertTrue(evaluateExpressionFor(adapted, bypass_for_manager=True))
