@@ -7,6 +7,7 @@ from archetypes.schemaextender.field import ExtensionField
 
 
 from Products.Archetypes.public import StringWidget, StringField
+from Products.Archetypes.public import LinesField, MultiSelectionWidget
 
 from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.interfaces import ICollectiveBehaviorTalconditionLayer
@@ -14,6 +15,10 @@ from collective.behavior.talcondition.interfaces import ICollectiveBehaviorTalco
 
 class TALConditionStringField(ExtensionField, StringField):
     """A string field that will contain an eventual TAL condition expression."""
+
+
+class TALConditionLinesField(ExtensionField, LinesField):
+    """A Lines field that will contain all roles who can bypass tal condition."""
 
 
 class TALConditionExtender(object):
@@ -35,8 +40,22 @@ class TALConditionExtender(object):
             languageIndependent=True,
             widget=StringWidget(
                 label=(u"TAL condition expression"),
-                description=(u"Enter a TAL expression that will return True if "
-                             u"element should be available."),))
+                description=(u'Enter a TAL expression that once evaluated will return True '
+                             'if content should be available. '
+                             'Elements \'member\', \'context\' and \'portal\' are available for the expression.'),)),
+
+        TALConditionLinesField(
+            'role_bypassing_talcondition',
+            required=False,
+            searchable=False,
+            languageIndependent=True,
+            widget=MultiSelectionWidget(
+                size=10,
+                label=(u"Role who can bypass TAL condition"),
+                description=(u'Choose the differents roles who can bypass the tal condition.'),),
+            enforceVocabulary=True,
+            multiValued=1,
+            vocabulary_factory='plone.app.vocabularies.Roles',),
     ]
 
     def __init__(self, context):

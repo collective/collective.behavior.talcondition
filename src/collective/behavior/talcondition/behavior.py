@@ -20,6 +20,13 @@ class ITALCondition(model.Schema):
         default=u'',
     )
 
+    role_bypassing_talcondition = schema.Set(
+        title=_(u''),
+        description=_(u'Choose the differents roles who can bypass the tal condition.'),
+        required=False,
+        value_type=schema.Choice(vocabulary='plone.app.vocabularies.Roles'),
+    )
+
     def evaluate(self):
         """Evaluate the condition and returns True or False."""
 
@@ -43,6 +50,14 @@ class TALCondition(object):
         self.context.tal_condition = value
 
     tal_condition = property(get_tal_condition, set_tal_condition)
+
+    def get_role_bypassing_talcondition(self):
+        return getattr(self.context, 'role_bypassing_talcondition', '')
+
+    def set_role_bypassing_talcondition(self, value):
+        self.context.role_bypassing_talcondition = value
+
+    role_bypassing_talcondition = property(get_role_bypassing_talcondition, set_role_bypassing_talcondition)
 
     def evaluate(self):
         return evaluateExpressionFor(self)
