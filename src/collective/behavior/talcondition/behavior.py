@@ -20,7 +20,7 @@ class ITALCondition(model.Schema):
         default=u'',
     )
 
-    role_bypassing_talcondition = schema.Set(
+    roles_bypassing_talcondition = schema.Set(
         title=_(u''),
         description=_(u'Choose the differents roles who can bypass the tal condition.'),
         required=False,
@@ -51,13 +51,13 @@ class TALCondition(object):
 
     tal_condition = property(get_tal_condition, set_tal_condition)
 
-    def get_role_bypassing_talcondition(self):
-        return getattr(self.context, 'role_bypassing_talcondition', '')
+    def get_roles_bypassing_talcondition(self):
+        return getattr(self.context, 'roles_bypassing_talcondition', '')
 
-    def set_role_bypassing_talcondition(self, value):
-        self.context.role_bypassing_talcondition = value
+    def set_roles_bypassing_talcondition(self, value):
+        self.context.roles_bypassing_talcondition = value
 
-    role_bypassing_talcondition = property(get_role_bypassing_talcondition, set_role_bypassing_talcondition)
+    roles_bypassing_talcondition = property(get_roles_bypassing_talcondition, set_roles_bypassing_talcondition)
 
     def evaluate(self):
         return evaluateExpressionFor(self)

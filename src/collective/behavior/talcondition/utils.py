@@ -7,7 +7,7 @@ logger = logging.getLogger('collective.behavior.talcondition')
 WRONG_TAL_CONDITION = "The TAL expression '%s' for element at '%s' is wrong.  Original exception : %s"
 
 
-def evaluateExpressionFor(obj, bypass_for_manager=False):
+def evaluateExpressionFor(obj):
     """Evaluate the expression stored in 'tal_condition' of given p_obj.
     """
     res = True
@@ -17,11 +17,11 @@ def evaluateExpressionFor(obj, bypass_for_manager=False):
     if hasattr(obj, 'context'):
         obj = obj.context
 
-    member = getToolByName(obj, 'portal_membership').getAuthenticatedMember()
-    if bypass_for_manager and member.has_role('Manager', obj):
-        return res
-
     if tal_condition:
+        member = getToolByName(obj, 'portal_membership').getAuthenticatedMember()
+        for role in obj.roles_bypassing_talcondition:
+            if member.has_role(str(role), obj):
+                return res
         portal = getToolByName(obj, 'portal_url').getPortalObject()
         ctx = createExprContext(obj.aq_inner.aq_parent,
                                 portal,

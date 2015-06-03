@@ -45,13 +45,13 @@ class TALConditionExtender(object):
                              'Elements \'member\', \'context\' and \'portal\' are available for the expression.'),)),
 
         TALConditionLinesField(
-            'role_bypassing_talcondition',
+            'roles_bypassing_talcondition',
             required=False,
             searchable=False,
             languageIndependent=True,
             widget=MultiSelectionWidget(
                 size=10,
-                label=(u"Role who can bypass TAL condition"),
+                label=(u"Roles who can bypass TAL condition"),
                 description=(u'Choose the differents roles who can bypass the tal condition.'),),
             enforceVocabulary=True,
             multiValued=1,

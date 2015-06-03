@@ -68,6 +68,7 @@ class TestUtils(IntegrationTestCase):
         adapted = ITALCondition(testitem)
         # using a wrong expression does not break anything
         adapted.tal_condition = "python:False"
-        self.assertFalse(evaluateExpressionFor(adapted, bypass_for_manager=False))
+        self.assertFalse(evaluateExpressionFor(adapted))
+        adapted.roles_bypassing_talcondition = [u'Manager']
         # as current user is Manager, he can bypass the expression result
-        self.assertTrue(evaluateExpressionFor(adapted, bypass_for_manager=True))
+        self.assertTrue(evaluateExpressionFor(adapted))
