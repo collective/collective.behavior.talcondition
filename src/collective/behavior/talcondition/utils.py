@@ -14,12 +14,14 @@ def evaluateExpressionFor(obj):
 
     # Check condition
     tal_condition = obj.tal_condition and obj.tal_condition.strip() or ''
+    roles_bypassing_talcondition = obj.roles_bypassing_talcondition
+
     if hasattr(obj, 'context'):
         obj = obj.context
 
     if tal_condition:
         member = getToolByName(obj, 'portal_membership').getAuthenticatedMember()
-        for role in obj.roles_bypassing_talcondition:
+        for role in roles_bypassing_talcondition:
             if member.has_role(str(role), obj):
                 return res
         portal = getToolByName(obj, 'portal_url').getPortalObject()
