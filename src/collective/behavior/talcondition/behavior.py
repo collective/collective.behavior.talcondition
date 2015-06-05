@@ -13,16 +13,21 @@ from plone.supermodel import model
 class ITALCondition(model.Schema):
 
     tal_condition = schema.TextLine(
-        title=_(u'TAL condition'),
-        description=_(u'Enter a TAL expression that once evaluated will return True if content should be available. '
-                      'Elements \'member\', \'context\' and \'portal\' are available for the expression.'),
+        title=_(u'TAL condition expression'),
+        description=_(u'Enter a TAL expression that once evaluated '
+                      'will return \'True\' if content should be '
+                      'available. Elements \'member\', \'context\' '
+                      'and \'portal\' are available for the '
+                      'expression.'),
         required=False,
         default=u'',
     )
 
     roles_bypassing_talcondition = schema.Set(
-        title=_(u''),
-        description=_(u'Choose the differents roles who can bypass the tal condition.'),
+        title=_(u'Roles that will bypass the TAL condition'),
+        description=_(u'Choose the differents roles for which the TAL '
+                      'condition will not be evaluated and always '
+                      'considered \'True\'.'),
         required=False,
         value_type=schema.Choice(vocabulary='plone.app.vocabularies.Roles'),
     )

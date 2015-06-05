@@ -2,15 +2,18 @@
 from zope.component import adapts
 
 from zope.interface import implements
-from archetypes.schemaextender.interfaces import ISchemaExtender, IBrowserLayerAwareExtender
+from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
+from archetypes.schemaextender.interfaces import ISchemaExtender
 from archetypes.schemaextender.field import ExtensionField
 
 
-from Products.Archetypes.public import StringWidget, StringField
-from Products.Archetypes.public import LinesField, MultiSelectionWidget
+from Products.Archetypes.public import MultiSelectionWidget
+from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import StringField
+from Products.Archetypes.public import StringWidget
 
-from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.interfaces import ICollectiveBehaviorTalconditionLayer
+from collective.behavior.talcondition.interfaces import ITALConditionable
 
 
 class TALConditionStringField(ExtensionField, StringField):
@@ -18,7 +21,8 @@ class TALConditionStringField(ExtensionField, StringField):
 
 
 class TALConditionLinesField(ExtensionField, LinesField):
-    """A Lines field that will contain all roles who can bypass tal condition."""
+    """A Lines field that will contain all roles
+       that will bypass the tal condition."""
 
 
 class TALConditionExtender(object):
@@ -26,7 +30,6 @@ class TALConditionExtender(object):
 
     implements(ISchemaExtender, IBrowserLayerAwareExtender)
 
-    # adapts elements that provide the IExternalIdentifierable marker interface
     adapts(ITALConditionable)
 
     layer = ICollectiveBehaviorTalconditionLayer
@@ -40,10 +43,14 @@ class TALConditionExtender(object):
             languageIndependent=True,
             widget=StringWidget(
                 label=(u"TAL condition expression"),
-                description=(u'Enter a TAL expression that once evaluated will return True '
-                             'if content should be available. '
-                             'Elements \'member\', \'context\' and \'portal\' are available for the expression.'),)),
-
+                description=(u'Enter a TAL expression that once evaluated '
+                             'will return \'True\' if content should be '
+                             'available. Elements \'member\', \'context\' '
+                             'and \'portal\' are available for the '
+                             'expression.'),
+                i18n_domain='collective.behavior.talcondition',
+            ),
+        ),
         TALConditionLinesField(
             'roles_bypassing_talcondition',
             required=False,
@@ -51,11 +58,17 @@ class TALConditionExtender(object):
             languageIndependent=True,
             widget=MultiSelectionWidget(
                 size=10,
-                label=(u"Roles who can bypass TAL condition"),
-                description=(u'Choose the differents roles who can bypass the tal condition.'),),
+                label=(u'Roles that will bypass the TAL condition'),
+                description=(u'Choose the differents roles for which the TAL '
+                             'condition will not be evaluated and always '
+                             'considered \'True\'.'
+                             ),
+                i18n_domain='collective.behavior.talcondition',
+            ),
             enforceVocabulary=True,
             multiValued=1,
-            vocabulary_factory='plone.app.vocabularies.Roles',),
+            vocabulary_factory='plone.app.vocabularies.Roles',
+        ),
     ]
 
     def __init__(self, context):
