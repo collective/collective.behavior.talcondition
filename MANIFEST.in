@@ -1,7 +1,6 @@
 graft src/collective
-graft buildout.d
-graft docs/
-include *.cfg *.rst *.in
-include *.py
-include .coveragerc
-include .travis.yml
+graft docs
+include *.rst
+global-exclude *.pyc *.sh *.pot
+exclude Makefile *.cfg .coveragerc bootstrap.py
+prune buildout.d
