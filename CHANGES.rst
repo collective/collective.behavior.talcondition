@@ -7,7 +7,8 @@ Changelog
 
 - Corrected default value
   [sgeulette]
-
+- Little optimization
+  [sgeulette]
 
 0.2 (2015-06-18)
 ----------------

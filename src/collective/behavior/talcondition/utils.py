@@ -14,30 +14,32 @@ def evaluateExpressionFor(obj):
 
     # Check condition
     tal_condition = obj.tal_condition and obj.tal_condition.strip() or ''
+    if not tal_condition:
+        return True
+
     roles_bypassing_talcondition = obj.roles_bypassing_talcondition
 
     if hasattr(obj, 'context'):
         obj = obj.context
 
-    if tal_condition:
-        member = getToolByName(obj, 'portal_membership').getAuthenticatedMember()
-        for role in roles_bypassing_talcondition:
-            if member.has_role(str(role), obj):
-                return res
-        portal = getToolByName(obj, 'portal_url').getPortalObject()
-        ctx = createExprContext(obj.aq_inner.aq_parent,
-                                portal,
-                                obj)
-        ctx.setGlobal('member', member)
-        ctx.setGlobal('context', obj)
-        ctx.setGlobal('portal', portal)
-        try:
-            res = Expression(tal_condition)(ctx)
-        except Exception, e:
-            logger.warn(WRONG_TAL_CONDITION % (obj.tal_condition,
-                                               obj.absolute_url(),
-                                               str(e)))
-            res = False
+    member = getToolByName(obj, 'portal_membership').getAuthenticatedMember()
+    for role in roles_bypassing_talcondition:
+        if member.has_role(str(role), obj):
+            return res
+    portal = getToolByName(obj, 'portal_url').getPortalObject()
+    ctx = createExprContext(obj.aq_inner.aq_parent,
+                            portal,
+                            obj)
+    ctx.setGlobal('member', member)
+    ctx.setGlobal('context', obj)
+    ctx.setGlobal('portal', portal)
+    try:
+        res = Expression(tal_condition)(ctx)
+    except Exception, e:
+        logger.warn(WRONG_TAL_CONDITION % (obj.tal_condition,
+                                           obj.absolute_url(),
+                                           str(e)))
+        res = False
     return res
 
 
