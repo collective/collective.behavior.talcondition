@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.2 (unreleased)
+0.2 (2015-06-18)
 ----------------
 
 - Added field 'role_bypassing_talcondition' to define who can bypass the condition
