@@ -5,13 +5,10 @@ Changelog
 0.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
-
-0.1 (2015-06-01)
-----------------
-
-- Nothing changed yet.
+- Added field 'role_bypassing_talcondition' to define who can bypass the condition
+  [anuyens]
+- Added translations for new field
+  [gbastien]
 
 
 0.1 (2015-06-01)
