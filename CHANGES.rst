@@ -5,7 +5,8 @@ Changelog
 0.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Corrected default value
+  [sgeulette]
 
 
 0.2 (2015-06-18)

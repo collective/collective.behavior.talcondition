@@ -57,7 +57,7 @@ class TALCondition(object):
     tal_condition = property(get_tal_condition, set_tal_condition)
 
     def get_roles_bypassing_talcondition(self):
-        return getattr(self.context, 'roles_bypassing_talcondition', '')
+        return getattr(self.context, 'roles_bypassing_talcondition', [])
 
     def set_roles_bypassing_talcondition(self, value):
         self.context.roles_bypassing_talcondition = value
