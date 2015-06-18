@@ -15,7 +15,7 @@ msgstr ""
 "Domain: DOMAIN\n"
 
 #: ../behavior.py:28
-msgid "Choose the differents roles for which the TAL condition will not be evaluated and always considered 'True'."
+msgid "Choose the different roles for which the TAL condition will not be evaluated and always considered 'True'."
 msgstr "Sélectionnez les roles pour lesquels la condition TAL ne sera pas évaluée et sera toujours 'vraie'."
 
 #: ../behavior.py:17

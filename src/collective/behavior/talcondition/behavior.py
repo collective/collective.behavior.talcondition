@@ -25,7 +25,7 @@ class ITALCondition(model.Schema):
 
     roles_bypassing_talcondition = schema.Set(
         title=_(u'Roles that will bypass the TAL condition'),
-        description=_(u'Choose the differents roles for which the TAL '
+        description=_(u'Choose the different roles for which the TAL '
                       'condition will not be evaluated and always '
                       'considered \'True\'.'),
         required=False,
