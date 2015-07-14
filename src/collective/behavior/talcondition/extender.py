@@ -59,7 +59,7 @@ class TALConditionExtender(object):
             widget=MultiSelectionWidget(
                 size=10,
                 label=(u'Roles that will bypass the TAL condition'),
-                description=(u'Choose the differents roles for which the TAL '
+                description=(u'Choose the different roles for which the TAL '
                              'condition will not be evaluated and always '
                              'considered \'True\'.'
                              ),

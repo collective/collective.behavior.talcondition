@@ -16,7 +16,7 @@ msgstr ""
 
 #: ../behavior.py:28
 msgid "Choose the different roles for which the TAL condition will not be evaluated and always considered 'True'."
-msgstr "Sélectionnez les roles pour lesquels la condition TAL ne sera pas évaluée et sera toujours 'vraie'."
+msgstr "Sélectionnez les rôles pour lesquels la condition TAL ne sera pas évaluée et sera toujours 'vraie'."
 
 #: ../behavior.py:17
 msgid "Enter a TAL expression that once evaluated will return 'True' if content should be available. Elements 'member', 'context' and 'portal' are available for the expression."
@@ -24,9 +24,8 @@ msgstr "Entrez une expression TAL qui une fois évaluée, retournera 'Vrai' si l
 
 #: ../behavior.py:27
 msgid "Roles that will bypass the TAL condition"
-msgstr "Roles qui by-passent l'expression TAL"
+msgstr "Rôles qui by-passent l'expression TAL"
 
 #: ../behavior.py:16
 msgid "TAL condition expression"
 msgstr "Condition au format TAL"
-
