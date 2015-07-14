@@ -2,5 +2,5 @@ graft src/collective
 graft docs
 include *.rst
 global-exclude *.pyc *.sh *.pot
-exclude Makefile *.cfg .coveragerc bootstrap.py
+exclude Makefile *.cfg .coveragerc .travis.yml bootstrap.py
 prune buildout.d
