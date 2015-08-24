@@ -1,8 +1,8 @@
-.. image:: https://travis-ci.org/IMIO/collective.behavior.talcondition.svg?branch=master
-    :target: https://travis-ci.org/IMIO/collective.behavior.talcondition
+.. image:: https://travis-ci.org/collective/collective.behavior.talcondition.svg?branch=master
+    :target: https://travis-ci.org/collective/collective.behavior.talcondition
 
-.. image:: https://coveralls.io/repos/IMIO/collective.behavior.talcondition/badge.png
-  :target: https://coveralls.io/r/IMIO/collective.behavior.talcondition
+.. image:: https://coveralls.io/repos/collective/collective.behavior.talcondition/badge.png
+  :target: https://coveralls.io/r/collective/collective.behavior.talcondition
 
 
 ==========================================================================
