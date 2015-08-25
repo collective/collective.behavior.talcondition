@@ -49,6 +49,7 @@ class TALConditionExtender(object):
                              'and \'portal\' are available for the '
                              'expression.'),
                 i18n_domain='collective.behavior.talcondition',
+                size="80",
             ),
         ),
         TALConditionLinesField(

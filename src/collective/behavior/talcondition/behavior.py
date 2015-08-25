@@ -8,10 +8,12 @@ from collective.behavior.talcondition.utils import evaluateExpressionFor
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
+from plone.autoform import directives as form
 
 
 class ITALCondition(model.Schema):
 
+    form.widget('tal_condition', size=80)
     tal_condition = schema.TextLine(
         title=_(u'TAL condition expression'),
         description=_(u'Enter a TAL expression that once evaluated '
