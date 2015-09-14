@@ -5,8 +5,9 @@ Changelog
 0.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Make the tal_condition field larger (from 30 to 80) for the 
+  AT extender as well as for the DX behavior
+  [gbastien]
 
 0.3 (2015-07-14)
 ----------------
