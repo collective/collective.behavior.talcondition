@@ -11,19 +11,22 @@ from collective.behavior.talcondition.utils import evaluateExpressionFor
 
 class TestUtils(IntegrationTestCase):
 
-    def test_wrong_condition(self):
-        """In case the condition is wrong, it just returns False
-           and a message is added to the Zope log."""
+    def setUp(self):
+        """ """
+        super(TestUtils, self).setUp()
         # create a testitem
         login(self.portal, TEST_USER_NAME)
         self.portal.invokeFactory(id='testitem',
                                   type_name='testtype',
                                   title='Test type')
-        testitem = self.portal.testitem
-        adapted = ITALCondition(testitem)
+        self.adapted = ITALCondition(self.portal.testitem)
+
+    def test_wrong_condition(self):
+        """In case the condition is wrong, it just returns False
+           and a message is added to the Zope log."""
         # using a wrong expression does not break anything
-        adapted.tal_condition = u'python: context.some_unexisting_method()'
-        self.assertFalse(adapted.evaluate())
+        self.adapted.tal_condition = u'python: context.some_unexisting_method()'
+        self.assertFalse(self.adapted.evaluate())
 
     def test_apply_extender(self):
         """Test that existing objects are correctly updated
@@ -45,30 +48,23 @@ class TestUtils(IntegrationTestCase):
         self.assertTrue(hasattr(testfolder, 'tal_condition'))
 
     def test_empty_condition(self):
-        # create a testitem
-        login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory(id='testitem',
-                                  type_name='testtype',
-                                  title='Test type')
-        testitem = self.portal.testitem
-        adapted = ITALCondition(testitem)
         # using a wrong expression does not break anything
-        adapted.tal_condition = None
-        self.assertTrue(adapted.evaluate())
+        self.adapted.tal_condition = None
+        self.assertTrue(self.adapted.evaluate())
 
     def test_bypass_for_manager(self):
         """In this case, no matter the expression is False,
            it will return True if current user is 'Manager'."""
-        # create a testitem
-        login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory(id='testitem',
-                                  type_name='testtype',
-                                  title='Test type')
-        testitem = self.portal.testitem
-        adapted = ITALCondition(testitem)
         # using a wrong expression does not break anything
-        adapted.tal_condition = "python:False"
-        self.assertFalse(evaluateExpressionFor(adapted))
-        adapted.roles_bypassing_talcondition = [u'Manager']
+        self.adapted.tal_condition = "python:False"
+        self.assertFalse(evaluateExpressionFor(self.adapted))
+        self.adapted.roles_bypassing_talcondition = [u'Manager']
         # as current user is Manager, he can bypass the expression result
-        self.assertTrue(evaluateExpressionFor(adapted))
+        self.assertTrue(evaluateExpressionFor(self.adapted))
+
+    def test_extra_expr_ctx(self):
+        """It is possible to pass extra values that will be available
+           in the context of the expression."""
+        self.adapted.tal_condition = "python: value == '122'"
+        self.assertFalse(evaluateExpressionFor(self.adapted))
+        self.assertTrue(evaluateExpressionFor(self.adapted, {'value': '122'}))

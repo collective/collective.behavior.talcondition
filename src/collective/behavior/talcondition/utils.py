@@ -7,7 +7,7 @@ logger = logging.getLogger('collective.behavior.talcondition')
 WRONG_TAL_CONDITION = "The TAL expression '%s' for element at '%s' is wrong.  Original exception : %s"
 
 
-def evaluateExpressionFor(obj):
+def evaluateExpressionFor(obj, extra_expr_ctx={}):
     """Evaluate the expression stored in 'tal_condition' of given p_obj.
     """
     res = True
@@ -33,6 +33,8 @@ def evaluateExpressionFor(obj):
     ctx.setGlobal('member', member)
     ctx.setGlobal('context', obj)
     ctx.setGlobal('portal', portal)
+    for extra_key, extra_value in extra_expr_ctx.items():
+        ctx.setGlobal(extra_key, extra_value)
     try:
         res = Expression(tal_condition)(ctx)
     except Exception, e:

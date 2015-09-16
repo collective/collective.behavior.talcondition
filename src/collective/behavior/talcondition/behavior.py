@@ -66,5 +66,5 @@ class TALCondition(object):
 
     roles_bypassing_talcondition = property(get_roles_bypassing_talcondition, set_roles_bypassing_talcondition)
 
-    def evaluate(self):
-        return evaluateExpressionFor(self)
+    def evaluate(self, extra_expr_ctx={}):
+        return evaluateExpressionFor(self, extra_expr_ctx=extra_expr_ctx)
