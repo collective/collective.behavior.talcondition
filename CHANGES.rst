@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.4 (unreleased)
+0.4 (2015-09-16)
 ----------------
 
 - Make the tal_condition field larger (from 30 to 80) for the
