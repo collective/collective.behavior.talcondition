@@ -21,8 +21,7 @@ import collective.behavior.talcondition
 class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
-    products = ('collective.behavior.talcondition',
-               )
+    products = ('collective.behavior.talcondition', )
 
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
@@ -54,20 +53,17 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
 
 
 FIXTURE = CollectiveBehaviorTalconditionLayer(
-    name="FIXTURE"
-    )
+    name="FIXTURE")
 
 
 INTEGRATION = IntegrationTesting(
     bases=(FIXTURE,),
-    name="INTEGRATION"
-    )
+    name="INTEGRATION")
 
 
 FUNCTIONAL = FunctionalTesting(
     bases=(FIXTURE,),
-    name="FUNCTIONAL"
-    )
+    name="FUNCTIONAL")
 
 
 ACCEPTANCE = FunctionalTesting(bases=(FIXTURE,
