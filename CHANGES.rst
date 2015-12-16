@@ -5,7 +5,11 @@ Changelog
 0.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added method utils._evaluateExpression that receives an expression
+  to evaluate, it is called by utils.evaluateExpressionFor.  This way, this
+  method may evaluate a TAL expression without getting it from the 'tal_condition'
+  attribute on the context, in case we want to evaluate arbitrary expression
+  [gbastien]
 
 
 0.4 (2015-09-16)
