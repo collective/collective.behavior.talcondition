@@ -44,7 +44,7 @@ def _evaluateExpression(obj, expression, roles_bypassing_expression=[], extra_ex
     try:
         res = Expression(expression)(ctx)
     except Exception, e:
-        logger.warn(WRONG_TAL_CONDITION % (obj.tal_condition,
+        logger.warn(WRONG_TAL_CONDITION % (expression,
                                            obj.absolute_url(),
                                            str(e)))
         res = False
