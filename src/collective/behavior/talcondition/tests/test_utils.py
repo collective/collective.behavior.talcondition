@@ -48,7 +48,7 @@ class TestUtils(IntegrationTestCase):
         self.assertTrue(hasattr(testfolder, 'tal_condition'))
 
     def test_empty_condition(self):
-        # using a wrong expression does not break anything
+        # using an empty expression is considered True
         self.adapted.tal_condition = None
         self.assertTrue(self.adapted.evaluate())
 
