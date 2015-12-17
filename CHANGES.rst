@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.5 (unreleased)
+0.5 (2015-12-17)
 ----------------
 
 - Added method utils._evaluateExpression that receives an expression
