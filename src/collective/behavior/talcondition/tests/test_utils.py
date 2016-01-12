@@ -7,6 +7,7 @@ from collective.behavior.talcondition.behavior import ITALCondition
 from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.utils import applyExtender
 from collective.behavior.talcondition.utils import evaluateExpressionFor
+from collective.behavior.talcondition.utils import _evaluateExpression
 
 
 class TestUtils(IntegrationTestCase):
@@ -68,3 +69,13 @@ class TestUtils(IntegrationTestCase):
         self.adapted.tal_condition = "python: value == '122'"
         self.assertFalse(evaluateExpressionFor(self.adapted))
         self.assertTrue(evaluateExpressionFor(self.adapted, {'value': '122'}))
+
+    def test_empty_expr_is_true(self):
+        """Test parameter used by utils._evaluateExpression making an empty
+           expression to be considered True or False."""
+        # True by default
+        self.assertTrue(_evaluateExpression(self.portal,
+                                            expression=''))
+        self.assertFalse(_evaluateExpression(self.portal,
+                                             expression='',
+                                             empty_expr_is_true=False))
