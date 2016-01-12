@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.6 (unreleased)
+0.6 (2016-01-12)
 ----------------
 
 - Added parameter `empty_expr_is_true` to utils._evaluateExpression than may be True
