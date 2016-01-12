@@ -12,8 +12,6 @@ def evaluateExpressionFor(obj, extra_expr_ctx={}):
     """
     # get tal_condition
     tal_condition = obj.tal_condition and obj.tal_condition.strip() or ''
-    if not tal_condition:
-        return True
 
     roles_bypassing_talcondition = obj.roles_bypassing_talcondition
 
@@ -25,8 +23,15 @@ def evaluateExpressionFor(obj, extra_expr_ctx={}):
                                extra_expr_ctx=extra_expr_ctx)
 
 
-def _evaluateExpression(obj, expression, roles_bypassing_expression=[], extra_expr_ctx={}):
+def _evaluateExpression(obj,
+                        expression,
+                        roles_bypassing_expression=[],
+                        extra_expr_ctx={},
+                        empty_expr_is_true=True):
     """Evaluate given p_expression extending expression context with p_extra_expr_ctx."""
+    if not expression.strip():
+        return empty_expr_is_true
+
     res = True
     member = api.user.get_current()
     for role in roles_bypassing_expression:
@@ -44,7 +49,7 @@ def _evaluateExpression(obj, expression, roles_bypassing_expression=[], extra_ex
     try:
         res = Expression(expression)(ctx)
     except Exception, e:
-        logger.warn(WRONG_TAL_CONDITION % (obj.tal_condition,
+        logger.warn(WRONG_TAL_CONDITION % (expression,
                                            obj.absolute_url(),
                                            str(e)))
         res = False
