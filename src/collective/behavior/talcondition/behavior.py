@@ -9,6 +9,7 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.interfaces import IDexterityContent
 from plone.supermodel import model
 from plone.autoform import directives as form
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
 
 
 class ITALCondition(model.Schema):
@@ -25,6 +26,7 @@ class ITALCondition(model.Schema):
         default=u'',
     )
 
+    form.widget('roles_bypassing_talcondition', CheckBoxFieldWidget, multiple='multiple', size=15)
     roles_bypassing_talcondition = schema.Set(
         title=_(u'Roles that will bypass the TAL condition'),
         description=_(u'Choose the different roles for which the TAL '

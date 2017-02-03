@@ -5,8 +5,9 @@ Changelog
 0.7 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Use CheckBoxWidget for `ITALCondition.roles_bypassing_talcondition` to ease
+  selection when displaying several elements.
+  [gbastien]
 
 0.6 (2016-01-12)
 ----------------
