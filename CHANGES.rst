@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.7 (unreleased)
+0.7 (2017-03-22)
 ----------------
 
 - Use CheckBoxWidget for `ITALCondition.roles_bypassing_talcondition` to ease
