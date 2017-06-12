@@ -1,8 +1,18 @@
 language: python
+sudo: false
+cache:
+  directories:
+    - eggs
+    - downloads
 python:
   - 2.7
+env:
+  - PLONE_VERSION=4
+  - PLONE_VERSION=5.0
+  - PLONE_VERSION=5.1
 install:
-  - mkdir -p buildout-cache/{eggs,downloads}
+  - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
+  - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
   - python bootstrap.py --version=2.5.3 -c travis.cfg
   - bin/buildout -Nc travis.cfg
 script:
