@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
+import unittest
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
 from collective.behavior.talcondition.testing import IntegrationTestCase
 from collective.behavior.talcondition.utils import evaluateExpressionFor
+from collective.behavior.talcondition import PLONE_VERSION
 
 
 class TestExtender(IntegrationTestCase):
 
+    @unittest.skipIf(PLONE_VERSION >= 5, 'Archetypes extender test skipped in Plone 5')
     def test_extender(self):
         """The extender is enabled on ATDocument in testing.zcml.
            Check that 'tal_condition' is available."""

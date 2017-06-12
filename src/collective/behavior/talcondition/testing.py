@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Base module for unittesting."""
 
+from plone import api
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -33,14 +34,23 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
+        # Set default chain for plone.app.contenttypes
+        wftool = portal['portal_workflow']
+        wftool.setDefaultChain('simple_publication_workflow')
+
         # Install into Plone site using portal_setup
         applyProfile(portal, 'collective.behavior.talcondition:testing')
+
+        try:
+            applyProfile(portal, 'plone.app.contenttypes:plone-content')
+        except KeyError:
+            # BBB Plone 4
+            pass
 
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
-        folder_id = portal.invokeFactory('Folder', 'folder')
-        portal[folder_id].reindexObject()
+        api.content.create(container=portal, type='Folder', id='folder')
 
         # Commit so that the test browser sees these objects
         import transaction
@@ -50,7 +60,6 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
         """Tear down Zope."""
         for p in reversed(self.products):
             z2.uninstallProduct(app, p)
-
 
 FIXTURE = CollectiveBehaviorTalconditionLayer(
     name="FIXTURE")

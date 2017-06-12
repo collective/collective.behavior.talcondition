@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import unittest
 from zope.interface import alsoProvides
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
@@ -8,6 +9,7 @@ from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.utils import applyExtender
 from collective.behavior.talcondition.utils import evaluateExpressionFor
 from collective.behavior.talcondition.utils import _evaluateExpression
+from collective.behavior.talcondition import PLONE_VERSION
 
 
 class TestUtils(IntegrationTestCase):
@@ -29,6 +31,7 @@ class TestUtils(IntegrationTestCase):
         self.adapted.tal_condition = u'python: context.some_unexisting_method()'
         self.assertFalse(self.adapted.evaluate())
 
+    @unittest.skipIf(PLONE_VERSION >= 5, 'Archetypes extender test skipped in Plone 5')
     def test_apply_extender(self):
         """Test that existing objects are correctly updated
            after enabling extender for their meta_type."""
