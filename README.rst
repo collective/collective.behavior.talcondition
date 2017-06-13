@@ -26,3 +26,6 @@ For AT you have to provide the ITALConditionable on your class (see testing.zcml
 
 For DX you just have to activate the behavior on your content type.
 
+Plone versions
+==============
+It has been developed and tested for Plone 4 and 5.
