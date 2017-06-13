@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import unittest
 import logging
 from Products.CMFCore.Expression import Expression, createExprContext
 from plone import api
+from collective.behavior.talcondition import PLONE_VERSION
 
 logger = logging.getLogger('collective.behavior.talcondition')
 WRONG_TAL_CONDITION = "The TAL expression '%s' for element at '%s' is wrong.  Original exception : %s"
@@ -34,7 +36,7 @@ def _evaluateExpression(obj,
 
     res = True
     member = api.user.get_current()
-    for role in roles_bypassing_expression:
+    for role in roles_bypassing_expression or []:
         if member.has_role(str(role), obj):
             return res
     portal = api.portal.get()
@@ -56,6 +58,7 @@ def _evaluateExpression(obj,
     return res
 
 
+@unittest.skipIf(PLONE_VERSION >= 5, 'Archetypes extender skipped in Plone 5')
 def applyExtender(portal, meta_types):
     """
       We add some fields using archetypes.schemaextender to every given p_meta_types.

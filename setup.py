@@ -48,6 +48,7 @@ setup(
     extras_require={
         'test': [
             'ecreall.helpers.testing',
+            'plone.app.imaging',
             'plone.app.testing',
             'plone.app.robotframework',
         ],
