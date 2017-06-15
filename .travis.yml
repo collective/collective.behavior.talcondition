@@ -14,7 +14,8 @@ install:
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
   - python bootstrap.py --version=2.5.3 -c travis.cfg
-  - bin/buildout -N buildout:download-cache=downloads -c travis.cfg
+  - bin/buildout -Nc travis.cfg buildout:download-cache=downloads annotate
+  - bin/buildout -Nc travis.cfg buildout:download-cache=downloads
 script:
   - bin/test
   - bin/coverage
