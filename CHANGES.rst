@@ -5,8 +5,9 @@ Changelog
 0.8 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Mark elements using behavior with `ITALConditionable` interface so it behaves
+  like element using the AT extender.
+  [gbastien]
 
 0.7 (2017-03-22)
 ----------------

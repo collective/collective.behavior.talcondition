@@ -20,6 +20,7 @@
         provides=".behavior.ITALCondition"
         for="plone.dexterity.interfaces.IDexterityContent"
         factory=".behavior.TALCondition"
+        marker=".interfaces.ITALConditionable"
         />
 
     <adapter factory=".extender.TALConditionExtender"
