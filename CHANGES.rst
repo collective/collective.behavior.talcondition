@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.8 (unreleased)
+0.8 (2018-06-12)
 ----------------
 
 - Mark elements using behavior with `ITALConditionable` interface so it behaves
