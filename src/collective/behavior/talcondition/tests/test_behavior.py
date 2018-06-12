@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
-from collective.behavior.talcondition.testing import IntegrationTestCase
-from collective.behavior.talcondition.behavior import ITALCondition
 from collective.behavior.talcondition import PLONE_VERSION
+from collective.behavior.talcondition.behavior import ITALCondition
+from collective.behavior.talcondition.testing import IntegrationTestCase
+from collective.behavior.talcondition.interfaces import ITALConditionable
 
 
 class TestBehavior(IntegrationTestCase):
@@ -26,6 +27,7 @@ class TestBehavior(IntegrationTestCase):
             self.assertFalse(hasattr(self.testitem, 'tal_condition'))
         # it has a 'tal_condition' attribute
         self.assertTrue(hasattr(self.adapted, 'tal_condition'))
+        self.assertTrue(ITALConditionable.providedBy(self.portal.testitem))
         # set a tal_condition and evaluate
         # this is True
         self.adapted.tal_condition = u"python:context.portal_type=='testtype'"

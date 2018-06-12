@@ -2,6 +2,7 @@
 import unittest
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
+from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.testing import IntegrationTestCase
 from collective.behavior.talcondition.utils import evaluateExpressionFor
 from collective.behavior.talcondition import PLONE_VERSION
@@ -18,6 +19,7 @@ class TestExtender(IntegrationTestCase):
                                   type_name='Document',
                                   title='Test document')
         doc = self.portal.doc
+        self.assertTrue(ITALConditionable.providedBy(doc))
         # set a tal_condition and evaluate
         # this is True
         doc.tal_condition = u"python:context.portal_type=='Document'"
