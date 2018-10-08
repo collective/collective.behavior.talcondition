@@ -5,8 +5,11 @@ Changelog
 0.9 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Added new parameter `error_pattern=WRONG_TAL_CONDITION` to
+  `utils.evaluateExpressionFor` and underlying `utils._evaluateExpression` to
+  be able to log a custom message in case an error occurs during
+  expression evaluation.
+  [gbastien]
 
 0.8 (2018-06-12)
 ----------------

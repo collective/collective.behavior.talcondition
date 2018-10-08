@@ -6,10 +6,10 @@ from plone import api
 from collective.behavior.talcondition import PLONE_VERSION
 
 logger = logging.getLogger('collective.behavior.talcondition')
-WRONG_TAL_CONDITION = "The TAL expression '%s' for element at '%s' is wrong.  Original exception : %s"
+WRONG_TAL_CONDITION = "The TAL expression '{0}' for element at '{1}' is wrong.  Original exception : {2}"
 
 
-def evaluateExpressionFor(obj, extra_expr_ctx={}):
+def evaluateExpressionFor(obj, extra_expr_ctx={}, error_pattern=WRONG_TAL_CONDITION):
     """Evaluate the expression stored in 'tal_condition' of given p_obj.
     """
     # get tal_condition
@@ -22,14 +22,16 @@ def evaluateExpressionFor(obj, extra_expr_ctx={}):
     return _evaluateExpression(obj,
                                expression=tal_condition,
                                roles_bypassing_expression=roles_bypassing_talcondition,
-                               extra_expr_ctx=extra_expr_ctx)
+                               extra_expr_ctx=extra_expr_ctx,
+                               error_pattern=error_pattern)
 
 
 def _evaluateExpression(obj,
                         expression,
                         roles_bypassing_expression=[],
                         extra_expr_ctx={},
-                        empty_expr_is_true=True):
+                        empty_expr_is_true=True,
+                        error_pattern=WRONG_TAL_CONDITION):
     """Evaluate given p_expression extending expression context with p_extra_expr_ctx."""
     if not expression.strip():
         return empty_expr_is_true
@@ -51,9 +53,8 @@ def _evaluateExpression(obj,
     try:
         res = Expression(expression)(ctx)
     except Exception, e:
-        logger.warn(WRONG_TAL_CONDITION % (expression,
-                                           obj.absolute_url(),
-                                           str(e)))
+        logger.warn(error_pattern.format(
+            expression, obj.absolute_url(), str(e)))
         res = False
     return res
 
