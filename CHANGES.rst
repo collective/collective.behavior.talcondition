@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.9 (unreleased)
+0.9 (2018-10-12)
 ----------------
 
 - Added new parameter `error_pattern=WRONG_TAL_CONDITION` to
