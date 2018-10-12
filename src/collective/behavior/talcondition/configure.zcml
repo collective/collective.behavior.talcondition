@@ -10,7 +10,6 @@
 
     <five:registerPackage package="." initialize=".initialize" />
 
-    <include package="plone.api" />
     <include package="plone.behavior" file="meta.zcml" />
     <include package="plone.app.dexterity" />
 
