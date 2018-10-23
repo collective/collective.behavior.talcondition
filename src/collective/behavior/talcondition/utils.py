@@ -33,7 +33,7 @@ def _evaluateExpression(obj,
                         empty_expr_is_true=True,
                         error_pattern=WRONG_TAL_CONDITION):
     """Evaluate given p_expression extending expression context with p_extra_expr_ctx."""
-    if not expression.strip():
+    if not expression or not expression.strip():
         return empty_expr_is_true
 
     res = True

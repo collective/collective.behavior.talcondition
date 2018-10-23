@@ -79,6 +79,11 @@ class TestUtils(IntegrationTestCase):
         # True by default
         self.assertTrue(_evaluateExpression(self.portal,
                                             expression=''))
+        self.assertTrue(_evaluateExpression(self.portal,
+                                            expression=None))
         self.assertFalse(_evaluateExpression(self.portal,
                                              expression='',
+                                             empty_expr_is_true=False))
+        self.assertFalse(_evaluateExpression(self.portal,
+                                             expression=None,
                                              empty_expr_is_true=False))

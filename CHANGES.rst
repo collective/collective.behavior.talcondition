@@ -5,8 +5,9 @@ Changelog
 0.10 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Do not break if parameter `expression` passed to
+  `utils._evaluateExpression` is None.
+  [gbastien]
 
 0.9 (2018-10-12)
 ----------------
