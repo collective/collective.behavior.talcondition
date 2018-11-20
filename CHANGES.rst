@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.10 (unreleased)
+0.10 (2018-11-20)
 -----------------
 
 - Do not break if parameter `expression` passed to
