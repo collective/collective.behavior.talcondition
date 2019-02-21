@@ -87,3 +87,10 @@ class TestUtils(IntegrationTestCase):
         self.assertFalse(_evaluateExpression(self.portal,
                                              expression=None,
                                              empty_expr_is_true=False))
+
+    def test_raise_on_error(self):
+        """By default, a wrong expression will return False, except if raise_on_error=True,
+           in this case the exception will be raised."""
+        self.adapted.tal_condition = u'python: context.some_unexisting_method()'
+        self.assertFalse(evaluateExpressionFor(self.adapted))
+        self.assertRaises(AttributeError, evaluateExpressionFor, self.adapted, raise_on_error=True)

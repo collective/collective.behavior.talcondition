@@ -5,8 +5,9 @@ Changelog
 0.11 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Added parameter `raise_on_error` to `utils.evaluateExpressionFor` to raise an
+  error when an exception occurs instead returning False.
+  [gbastien]
 
 0.10 (2018-11-20)
 -----------------
