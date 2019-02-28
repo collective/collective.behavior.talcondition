@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-import unittest
-import logging
-from Products.CMFCore.Expression import Expression, createExprContext
-from plone import api
+
 from collective.behavior.talcondition import PLONE_VERSION
+from plone import api
+from Products.CMFCore.Expression import createExprContext
+from Products.CMFCore.Expression import Expression
+
+import logging
+import unittest
+
 
 logger = logging.getLogger('collective.behavior.talcondition')
 WRONG_TAL_CONDITION = "The TAL expression '{0}' for element at '{1}' is wrong.  Original exception : {2}"

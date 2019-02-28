@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
+
+from collective.behavior.talcondition import _
+from collective.behavior.talcondition.utils import evaluateExpressionFor
+from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
+from plone.dexterity.interfaces import IDexterityContent
+from plone.supermodel import model
+from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import adapts
 from zope.interface import alsoProvides
 from zope.interface import implements
-from collective.behavior.talcondition import _
-from collective.behavior.talcondition.utils import evaluateExpressionFor
-from plone.autoform.interfaces import IFormFieldProvider
-from plone.dexterity.interfaces import IDexterityContent
-from plone.supermodel import model
-from plone.autoform import directives as form
-from z3c.form.browser.checkbox import CheckBoxFieldWidget
 
 
 class ITALCondition(model.Schema):
@@ -68,5 +69,10 @@ class TALCondition(object):
 
     roles_bypassing_talcondition = property(get_roles_bypassing_talcondition, set_roles_bypassing_talcondition)
 
+    @property
+    def extra_expr_ctx(self):
+        """Return extra_expr_ctx, this is made to be overrided."""
+        return {}
+
     def evaluate(self, extra_expr_ctx={}):
-        return evaluateExpressionFor(self, extra_expr_ctx=extra_expr_ctx)
+        return evaluateExpressionFor(self, extra_expr_ctx=self.extra_expr_ctx)
