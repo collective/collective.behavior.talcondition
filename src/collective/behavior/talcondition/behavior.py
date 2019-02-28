@@ -75,4 +75,5 @@ class TALCondition(object):
         return {}
 
     def evaluate(self, extra_expr_ctx={}):
-        return evaluateExpressionFor(self, extra_expr_ctx=self.extra_expr_ctx)
+        extra_expr_ctx = extra_expr_ctx or self.extra_expr_ctx
+        return evaluateExpressionFor(self, extra_expr_ctx=extra_expr_ctx)
