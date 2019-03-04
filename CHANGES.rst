@@ -8,8 +8,9 @@ Changelog
 - Added parameter `raise_on_error` to `utils.evaluateExpressionFor` to raise an
   error when an exception occurs instead returning False.
   [gbastien]
-- Added property `TALCondition.extra_expr_ctx` to the behavior to formalize the
-  way to get `extra_expr_ctx` to avoid the `evaluate` method to be overrided.
+- Added method `TALCondition.complete_extra_expr_ctx` to the behavior to
+  formalize the way to get `extra_expr_ctx` to avoid the `evaluate` method
+  to be overrided.
   [gbastien]
 
 0.10 (2018-11-20)

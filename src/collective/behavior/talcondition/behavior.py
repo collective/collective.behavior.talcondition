@@ -69,11 +69,10 @@ class TALCondition(object):
 
     roles_bypassing_talcondition = property(get_roles_bypassing_talcondition, set_roles_bypassing_talcondition)
 
-    @property
-    def extra_expr_ctx(self):
-        """Return extra_expr_ctx, this is made to be overrided."""
-        return {}
+    def complete_extra_expr_ctx(self, extra_expr_ctx):
+        """Complete extra_expr_ctx, this is made to be overrided."""
+        return extra_expr_ctx
 
     def evaluate(self, extra_expr_ctx={}):
-        extra_expr_ctx = extra_expr_ctx or self.extra_expr_ctx
+        extra_expr_ctx = self.complete_extra_expr_ctx(extra_expr_ctx)
         return evaluateExpressionFor(self, extra_expr_ctx=extra_expr_ctx)
