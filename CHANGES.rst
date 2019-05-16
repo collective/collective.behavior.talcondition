@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.11 (unreleased)
+0.11 (2019-05-16)
 -----------------
 
 - Added parameter `raise_on_error` to `utils.evaluateExpressionFor` to raise an
