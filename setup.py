@@ -7,9 +7,9 @@ from setuptools import setup
 
 long_description = (
     open('README.rst').read()
-    + '\n' +
+    + '\n\n' +
     open('CHANGES.rst').read()
-    + '\n')
+    + '\n\n')
 
 
 setup(
