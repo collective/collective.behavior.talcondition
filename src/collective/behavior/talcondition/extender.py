@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-from zope.component import adapts
-
-from zope.interface import implements
+from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaExtender
-from archetypes.schemaextender.field import ExtensionField
-
-
-from Products.Archetypes.public import MultiSelectionWidget
-from Products.Archetypes.public import LinesField
-from Products.Archetypes.public import StringField
-from Products.Archetypes.public import StringWidget
-
 from collective.behavior.talcondition.interfaces import ICollectiveBehaviorTalconditionLayer
 from collective.behavior.talcondition.interfaces import ITALConditionable
+from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import MultiSelectionWidget
+from Products.Archetypes.public import StringField
+from Products.Archetypes.public import StringWidget
+from zope.component import adapts
+from zope.interface import implements
 
 
 class TALConditionStringField(ExtensionField, StringField):

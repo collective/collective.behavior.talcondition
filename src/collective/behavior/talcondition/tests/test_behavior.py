@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from plone.app.testing import login
-from plone.app.testing import TEST_USER_NAME
 from collective.behavior.talcondition import PLONE_VERSION
 from collective.behavior.talcondition.behavior import ITALCondition
-from collective.behavior.talcondition.testing import IntegrationTestCase
 from collective.behavior.talcondition.interfaces import ITALConditionable
+from collective.behavior.talcondition.testing import IntegrationTestCase
+from plone.app.testing import login
+from plone.app.testing import TEST_USER_NAME
 
 
 class TestBehavior(IntegrationTestCase):

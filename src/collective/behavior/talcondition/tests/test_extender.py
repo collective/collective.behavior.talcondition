@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-import unittest
-from plone.app.testing import login
-from plone.app.testing import TEST_USER_NAME
+from collective.behavior.talcondition import PLONE_VERSION
 from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.testing import IntegrationTestCase
 from collective.behavior.talcondition.utils import evaluateExpressionFor
-from collective.behavior.talcondition import PLONE_VERSION
+from plone.app.testing import login
+from plone.app.testing import TEST_USER_NAME
+
+import unittest
 
 
 class TestExtender(IntegrationTestCase):

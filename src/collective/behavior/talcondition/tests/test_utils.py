@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
-import unittest
-from zope.interface import alsoProvides
-from plone.app.testing import login
-from plone.app.testing import TEST_USER_NAME
-from collective.behavior.talcondition.testing import IntegrationTestCase
+from collective.behavior.talcondition import PLONE_VERSION
 from collective.behavior.talcondition.behavior import ITALCondition
 from collective.behavior.talcondition.interfaces import ITALConditionable
+from collective.behavior.talcondition.testing import IntegrationTestCase
+from collective.behavior.talcondition.utils import _evaluateExpression
 from collective.behavior.talcondition.utils import applyExtender
 from collective.behavior.talcondition.utils import evaluateExpressionFor
-from collective.behavior.talcondition.utils import _evaluateExpression
-from collective.behavior.talcondition import PLONE_VERSION
+from plone.app.testing import login
+from plone.app.testing import TEST_USER_NAME
+from zope.interface import alsoProvides
+
+import unittest
 
 
 class TestUtils(IntegrationTestCase):
