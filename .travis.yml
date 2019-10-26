@@ -13,7 +13,7 @@ env:
   - PLONE_VERSION=5.2
 install:
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
-  - sed -ie "s#travis-5#travis-$PLONE_VERSION#" travis.cfg
+  - sed -ie "s#test-5#test-$PLONE_VERSION#" travis.cfg
   - pip install -r requirements.txt
   - python bootstrap.py -c travis.cfg
   - bin/buildout -Nc travis.cfg buildout:download-cache=downloads buildout:eggs-directory=eggs annotate
