@@ -26,6 +26,7 @@ setup(
         "Framework :: Plone :: 5.1",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.7",
     ],
     keywords='Python Zope Plone',
     author='IMIO',
