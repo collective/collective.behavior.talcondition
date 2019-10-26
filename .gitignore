@@ -22,3 +22,7 @@ htmlcov/
 output.xml
 *.swp
 pip-selfcheck.json
+lib64
+local/
+pyvenv.cfg
+share/
