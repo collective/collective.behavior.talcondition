@@ -37,7 +37,9 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
         wftool = portal['portal_workflow']
         wftool.setDefaultChain('simple_publication_workflow')
 
-        # Install into Plone site using portal_setup
+        # Install into Plone
+        installer = portal['portal_quickinstaller']
+        installer.installProduct('collective.behavior.talcondition')
         applyProfile(portal, 'collective.behavior.talcondition:testing')
 
         try:

@@ -5,8 +5,8 @@ Changelog
 0.12 (unreleased)
 -----------------
 
-- Nothing changed yet.
-
+- Do not consider the `archetypes.schemaextender` on Plone5.
+  [gbastien]
 
 0.11 (2019-05-16)
 -----------------

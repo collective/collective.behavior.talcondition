@@ -6,8 +6,9 @@
 
   <include file="configure.zcml" />
 
-  <class class="Products.ATContentTypes.content.document.ATDocument">
-    <implements zcml:condition="have plone-4" interface="collective.behavior.talcondition.interfaces.ITALConditionable" />
+  <class zcml:condition="not-have plone-5"
+         class="Products.ATContentTypes.content.document.ATDocument">
+    <implements interface="collective.behavior.talcondition.interfaces.ITALConditionable" />
   </class>
 
   <genericsetup:registerProfile
@@ -15,7 +16,6 @@
       title="collective.behavior.talcondition tests"
       directory="profiles/testing"
       description="Steps to ease tests of collective.behavior.talcondition"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+      provides="Products.GenericSetup.interfaces.EXTENSION" />
 
 </configure>

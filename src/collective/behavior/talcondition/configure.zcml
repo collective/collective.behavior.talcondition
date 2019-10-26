@@ -4,6 +4,7 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.behavior.talcondition">
 
     <i18n:registerTranslations directory="locales" />
@@ -22,7 +23,8 @@
         marker=".interfaces.ITALConditionable"
         />
 
-    <adapter factory=".extender.TALConditionExtender"
+    <adapter zcml:condition="not-have plone-5"
+             factory=".extender.TALConditionExtender"
              for=".interfaces.ITALConditionable"
              provides="archetypes.schemaextender.interfaces.ISchemaExtender"
              name="collective.behavior.talcondition.extender" />
