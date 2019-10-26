@@ -62,7 +62,7 @@ def _evaluateExpression(obj,
     else:
         try:
             res = Expression(expression)(ctx)
-        except Exception, e:
+        except Exception as e:
             logger.warn(error_pattern.format(
                 expression, obj.absolute_url(), str(e)))
             res = False

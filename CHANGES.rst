@@ -7,6 +7,8 @@ Changelog
 
 - Do not consider the `archetypes.schemaextender` on Plone5.
   [gbastien]
+- Adapted code (except, implementer) to be Python3 compatible.
+  [gbastien]
 
 0.11 (2019-05-16)
 -----------------

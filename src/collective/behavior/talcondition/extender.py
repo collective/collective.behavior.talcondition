@@ -9,7 +9,7 @@ from Products.Archetypes.public import MultiSelectionWidget
 from Products.Archetypes.public import StringField
 from Products.Archetypes.public import StringWidget
 from zope.component import adapts
-from zope.interface import implements
+from zope.interface import implementer
 
 
 class TALConditionStringField(ExtensionField, StringField):
@@ -21,10 +21,9 @@ class TALConditionLinesField(ExtensionField, LinesField):
        that will bypass the tal condition."""
 
 
+@implementer(ISchemaExtender, IBrowserLayerAwareExtender)
 class TALConditionExtender(object):
     """TALCondition class"""
-
-    implements(ISchemaExtender, IBrowserLayerAwareExtender)
 
     adapts(ITALConditionable)
 

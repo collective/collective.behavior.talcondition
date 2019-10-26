@@ -10,7 +10,7 @@ from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.component import adapts
 from zope.interface import alsoProvides
-from zope.interface import implements
+from zope.interface import implementer
 
 
 class ITALCondition(model.Schema):
@@ -43,11 +43,11 @@ class ITALCondition(model.Schema):
 alsoProvides(ITALCondition, IFormFieldProvider)
 
 
+@implementer(ITALCondition)
 class TALCondition(object):
     """
     """
 
-    implements(ITALCondition)
     adapts(IDexterityContent)
 
     def __init__(self, context):
