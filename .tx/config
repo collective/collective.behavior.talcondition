@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[plone-collective.collective-behavior-talcondition-pot]
+file_filter = src/collective/behavior/talcondition/locales/<lang>/LC_MESSAGES/collective.behavior.talcondition.po
+minimum_perc = 0
+source_file = src/collective/behavior/talcondition/locales/collective.behavior.talcondition.pot
+source_lang = en
+type = PO
+

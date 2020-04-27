@@ -5,6 +5,8 @@ Changelog
 0.12 (unreleased)
 -----------------
 
+- Add Transifex.net service integration to manage the translation process.
+  [macagua]
 - Add Spanish translation
   [macagua]
 - Do not consider the `archetypes.schemaextender` on Plone5.
