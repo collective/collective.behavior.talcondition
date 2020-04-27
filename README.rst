@@ -29,3 +29,14 @@ For DX you just have to activate the behavior on your content type.
 Plone versions
 ==============
 It has been developed and tested for Plone 4 and 5.
+
+
+Translations
+============
+
+This product has been translated into
+
+- French.
+
+- Spanish.
+

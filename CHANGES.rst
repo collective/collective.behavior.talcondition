@@ -5,6 +5,8 @@ Changelog
 0.12 (unreleased)
 -----------------
 
+- Add Spanish translation
+  [macagua]
 - Do not consider the `archetypes.schemaextender` on Plone5.
   [gbastien]
 - Adapted code (except, implementer) to be Python3 compatible.
