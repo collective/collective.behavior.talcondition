@@ -21,6 +21,7 @@ matrix:
 install:
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" buildout.cfg
   - sed -ie "s#plone-5#plone-$PLONE_VERSION#" travis.cfg
+  - virtualenv .
   - bin/pip install -r requirements.txt
   - bin/buildout -Nc travis.cfg buildout:download-cache=downloads buildout:eggs-directory=eggs annotate
   - bin/buildout -Nc travis.cfg buildout:download-cache=downloads buildout:eggs-directory=eggs
