@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+from AccessControl import Unauthorized
 from collective.behavior.talcondition import PLONE_VERSION
 from collective.behavior.talcondition.behavior import ITALCondition
 from collective.behavior.talcondition.interfaces import ITALConditionable
@@ -95,3 +97,15 @@ class TestUtils(IntegrationTestCase):
         self.adapted.tal_condition = u'python: context.some_unexisting_method()'
         self.assertFalse(evaluateExpressionFor(self.adapted))
         self.assertRaises(AttributeError, evaluateExpressionFor, self.adapted, raise_on_error=True)
+
+    def test_trusted(self):
+        self.assertRaises(Unauthorized,
+                          _evaluateExpression,
+                          self.portal,
+                          expression='python: context.unrestrictedTraverse("view")',
+                          raise_on_error=True)
+        self.assertTrue(_evaluateExpression(
+            self.portal,
+            expression='python: context.unrestrictedTraverse("view")',
+            raise_on_error=True,
+            trusted=True))

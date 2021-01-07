@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from App.class_init import InitializeClass
 from collective.behavior.talcondition import PLONE_VERSION
 from plone import api
 from Products.CMFCore.Expression import createExprContext
 from Products.CMFCore.Expression import Expression
+from Products.PageTemplates.Expressions import createTrustedZopeEngine
+from Products.PageTemplates.Expressions import SecureModuleImporter
 
 import logging
 import unittest
@@ -13,7 +16,11 @@ logger = logging.getLogger('collective.behavior.talcondition')
 WRONG_TAL_CONDITION = "The TAL expression '{0}' for element at '{1}' is wrong.  Original exception : {2}"
 
 
-def evaluateExpressionFor(obj, extra_expr_ctx={}, error_pattern=WRONG_TAL_CONDITION, raise_on_error=False):
+def evaluateExpressionFor(obj,
+                          extra_expr_ctx={},
+                          error_pattern=WRONG_TAL_CONDITION,
+                          raise_on_error=False,
+                          trusted=False):
     """Evaluate the expression stored in 'tal_condition' of given p_obj.
     """
     # get tal_condition
@@ -28,7 +35,8 @@ def evaluateExpressionFor(obj, extra_expr_ctx={}, error_pattern=WRONG_TAL_CONDIT
                                roles_bypassing_expression=roles_bypassing_talcondition,
                                extra_expr_ctx=extra_expr_ctx,
                                error_pattern=error_pattern,
-                               raise_on_error=raise_on_error)
+                               raise_on_error=raise_on_error,
+                               trusted=trusted)
 
 
 def _evaluateExpression(obj,
@@ -37,7 +45,8 @@ def _evaluateExpression(obj,
                         extra_expr_ctx={},
                         empty_expr_is_true=True,
                         error_pattern=WRONG_TAL_CONDITION,
-                        raise_on_error=False):
+                        raise_on_error=False,
+                        trusted=False):
     """Evaluate given p_expression extending expression context with p_extra_expr_ctx."""
     if not expression or not expression.strip():
         return empty_expr_is_true
@@ -48,9 +57,16 @@ def _evaluateExpression(obj,
         if member.has_role(str(role), obj):
             return res
     portal = api.portal.get()
-    ctx = createExprContext(obj.aq_inner.aq_parent,
-                            portal,
-                            obj)
+    if trusted:
+        ctx = createTrustedExprContext(obj.aq_inner.aq_parent,
+                                       portal,
+                                       obj)
+        expr_handler = TrustedExpression
+    else:
+        ctx = createExprContext(obj.aq_inner.aq_parent,
+                                portal,
+                                obj)
+        expr_handler = Expression
     ctx.setGlobal('member', member)
     ctx.setGlobal('context', obj)
     ctx.setGlobal('portal', portal)
@@ -58,15 +74,80 @@ def _evaluateExpression(obj,
         ctx.setGlobal(extra_key, extra_value)
 
     if raise_on_error:
-        res = Expression(expression)(ctx)
+        res = expr_handler(expression)(ctx)
     else:
         try:
-            res = Expression(expression)(ctx)
+            res = expr_handler(expression)(ctx)
         except Exception as e:
             logger.warn(error_pattern.format(
                 expression, obj.absolute_url(), str(e)))
             res = False
     return res
+
+
+def createTrustedExprContext(folder, portal, object):
+    '''
+    Expression evaluator trusted (not restricted python)
+    Same as createExprContext but use the trusted engine.
+    '''
+    pm = api.portal.get_tool('portal_membership')
+    if object is None:
+        object_url = ''
+    else:
+        object_url = object.absolute_url()
+    if pm.isAnonymousUser():
+        member = None
+    else:
+        member = pm.getAuthenticatedMember()
+    data = {
+        'object_url': object_url,
+        'folder_url': folder.absolute_url(),
+        'portal_url': portal.absolute_url(),
+        'object': object,
+        'folder': folder,
+        'portal': portal,
+        'nothing': None,
+        'request': getattr(portal, 'REQUEST', None),
+        'modules': SecureModuleImporter,
+        'member': member,
+        'here': object,
+    }
+    return getTrustedEngine().getContext(data)
+
+
+_trusted_engine = createTrustedZopeEngine()
+
+
+def getTrustedEngine():
+    """ """
+    return _trusted_engine
+
+
+class TrustedExpression(Expression):
+    """ """
+
+    text = ''
+    _v_compiled = None
+
+    def __init__(self, text):
+        self.text = text
+        if text.strip():
+            self._v_compiled = getTrustedEngine().compile(text)
+
+    def __call__(self, econtext):
+        if not self.text.strip():
+            return ''
+        compiled = self._v_compiled
+        if compiled is None:
+            compiled = self._v_compiled = getTrustedEngine().compile(self.text)
+        # ?? Maybe expressions should manipulate the security
+        # context stack.
+        res = compiled(econtext)
+        if isinstance(res, Exception):
+            raise res
+        return res
+
+InitializeClass(Expression)
 
 
 @unittest.skipIf(PLONE_VERSION >= 5, 'Archetypes extender skipped in Plone 5')

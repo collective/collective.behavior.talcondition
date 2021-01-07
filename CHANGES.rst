@@ -13,6 +13,9 @@ Changelog
   [gbastien]
 - Adapted code (except, implementer) to be Python3 compatible.
   [gbastien]
+- Added parameter `trusted=False` to `utils._evaluateExpression`, this will use
+  a trusted expression handler instead the restricted python default.
+  [gbastien]
 
 0.11 (2019-05-16)
 -----------------
