@@ -5,7 +5,9 @@ Changelog
 0.13 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Fix deprecated import AccessControl.class_init instead of App.class_init 
+  (Plone6 compatibility)
+  [boulch]
 
 
 0.12 (2021-04-20)
