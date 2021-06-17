@@ -12,41 +12,48 @@ import logging
 import unittest
 
 
-logger = logging.getLogger('collective.behavior.talcondition')
-WRONG_TAL_CONDITION = "The TAL expression '{0}' for element at '{1}' is wrong.  Original exception : {2}"
+logger = logging.getLogger("collective.behavior.talcondition")
+WRONG_TAL_CONDITION = (
+    "The TAL expression '{0}' for element at '{1}' is wrong.  Original exception : {2}"
+)
 
 
-def evaluateExpressionFor(obj,
-                          extra_expr_ctx={},
-                          error_pattern=WRONG_TAL_CONDITION,
-                          raise_on_error=False,
-                          trusted=False):
-    """Evaluate the expression stored in 'tal_condition' of given p_obj.
-    """
+def evaluateExpressionFor(
+    obj,
+    extra_expr_ctx={},
+    error_pattern=WRONG_TAL_CONDITION,
+    raise_on_error=False,
+    trusted=False,
+):
+    """Evaluate the expression stored in 'tal_condition' of given p_obj."""
     # get tal_condition
-    tal_condition = obj.tal_condition and obj.tal_condition.strip() or ''
+    tal_condition = obj.tal_condition and obj.tal_condition.strip() or ""
 
     roles_bypassing_talcondition = obj.roles_bypassing_talcondition
 
-    if hasattr(obj, 'context'):
+    if hasattr(obj, "context"):
         obj = obj.context
-    return _evaluateExpression(obj,
-                               expression=tal_condition,
-                               roles_bypassing_expression=roles_bypassing_talcondition,
-                               extra_expr_ctx=extra_expr_ctx,
-                               error_pattern=error_pattern,
-                               raise_on_error=raise_on_error,
-                               trusted=trusted)
+    return _evaluateExpression(
+        obj,
+        expression=tal_condition,
+        roles_bypassing_expression=roles_bypassing_talcondition,
+        extra_expr_ctx=extra_expr_ctx,
+        error_pattern=error_pattern,
+        raise_on_error=raise_on_error,
+        trusted=trusted,
+    )
 
 
-def _evaluateExpression(obj,
-                        expression,
-                        roles_bypassing_expression=[],
-                        extra_expr_ctx={},
-                        empty_expr_is_true=True,
-                        error_pattern=WRONG_TAL_CONDITION,
-                        raise_on_error=False,
-                        trusted=False):
+def _evaluateExpression(
+    obj,
+    expression,
+    roles_bypassing_expression=[],
+    extra_expr_ctx={},
+    empty_expr_is_true=True,
+    error_pattern=WRONG_TAL_CONDITION,
+    raise_on_error=False,
+    trusted=False,
+):
     """Evaluate given p_expression extending expression context with p_extra_expr_ctx."""
     if not expression or not expression.strip():
         return empty_expr_is_true
@@ -58,18 +65,14 @@ def _evaluateExpression(obj,
             return res
     portal = api.portal.get()
     if trusted:
-        ctx = createTrustedExprContext(obj.aq_inner.aq_parent,
-                                       portal,
-                                       obj)
+        ctx = createTrustedExprContext(obj.aq_inner.aq_parent, portal, obj)
         expr_handler = TrustedExpression
     else:
-        ctx = createExprContext(obj.aq_inner.aq_parent,
-                                portal,
-                                obj)
+        ctx = createExprContext(obj.aq_inner.aq_parent, portal, obj)
         expr_handler = Expression
-    ctx.setGlobal('member', member)
-    ctx.setGlobal('context', obj)
-    ctx.setGlobal('portal', portal)
+    ctx.setGlobal("member", member)
+    ctx.setGlobal("context", obj)
+    ctx.setGlobal("portal", portal)
     for extra_key, extra_value in extra_expr_ctx.items():
         ctx.setGlobal(extra_key, extra_value)
 
@@ -79,20 +82,19 @@ def _evaluateExpression(obj,
         try:
             res = expr_handler(expression)(ctx)
         except Exception as e:
-            logger.warn(error_pattern.format(
-                expression, obj.absolute_url(), str(e)))
+            logger.warn(error_pattern.format(expression, obj.absolute_url(), str(e)))
             res = False
     return res
 
 
 def createTrustedExprContext(folder, portal, object):
-    '''
+    """
     Expression evaluator trusted (not restricted python)
     Same as createExprContext but use the trusted engine.
-    '''
-    pm = api.portal.get_tool('portal_membership')
+    """
+    pm = api.portal.get_tool("portal_membership")
     if object is None:
-        object_url = ''
+        object_url = ""
     else:
         object_url = object.absolute_url()
     if pm.isAnonymousUser():
@@ -100,17 +102,17 @@ def createTrustedExprContext(folder, portal, object):
     else:
         member = pm.getAuthenticatedMember()
     data = {
-        'object_url': object_url,
-        'folder_url': folder.absolute_url(),
-        'portal_url': portal.absolute_url(),
-        'object': object,
-        'folder': folder,
-        'portal': portal,
-        'nothing': None,
-        'request': getattr(portal, 'REQUEST', None),
-        'modules': SecureModuleImporter,
-        'member': member,
-        'here': object,
+        "object_url": object_url,
+        "folder_url": folder.absolute_url(),
+        "portal_url": portal.absolute_url(),
+        "object": object,
+        "folder": folder,
+        "portal": portal,
+        "nothing": None,
+        "request": getattr(portal, "REQUEST", None),
+        "modules": SecureModuleImporter,
+        "member": member,
+        "here": object,
     }
     return getTrustedEngine().getContext(data)
 
@@ -126,7 +128,7 @@ def getTrustedEngine():
 class TrustedExpression(Expression):
     """ """
 
-    text = ''
+    text = ""
     _v_compiled = None
 
     def __init__(self, text):
@@ -136,7 +138,7 @@ class TrustedExpression(Expression):
 
     def __call__(self, econtext):
         if not self.text.strip():
-            return ''
+            return ""
         compiled = self._v_compiled
         if compiled is None:
             compiled = self._v_compiled = getTrustedEngine().compile(self.text)
@@ -147,19 +149,25 @@ class TrustedExpression(Expression):
             raise res
         return res
 
+
 InitializeClass(Expression)
 
 
-@unittest.skipIf(PLONE_VERSION >= 5, 'Archetypes extender skipped in Plone 5')
+@unittest.skipIf(PLONE_VERSION >= 5, "Archetypes extender skipped in Plone 5")
 def applyExtender(portal, meta_types):
     """
-      We add some fields using archetypes.schemaextender to every given p_meta_types.
+    We add some fields using archetypes.schemaextender to every given p_meta_types.
     """
-    logger.info("Adding talcondition fields : updating the schema for meta_types %s" % ','.join(meta_types))
-    at_tool = api.portal.get_tool('archetype_tool')
-    catalog = api.portal.get_tool('portal_catalog')
-    catalog.ZopeFindAndApply(portal,
-                             obj_metatypes=meta_types,
-                             search_sub=True,
-                             apply_func=at_tool._updateObject)
+    logger.info(
+        "Adding talcondition fields : updating the schema for meta_types %s"
+        % ",".join(meta_types)
+    )
+    at_tool = api.portal.get_tool("archetype_tool")
+    catalog = api.portal.get_tool("portal_catalog")
+    catalog.ZopeFindAndApply(
+        portal,
+        obj_metatypes=meta_types,
+        search_sub=True,
+        apply_func=at_tool._updateObject,
+    )
     logger.info("Done!")

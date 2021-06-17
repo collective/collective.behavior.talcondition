@@ -15,38 +15,47 @@ from zope.interface import implementer
 
 class ITALCondition(model.Schema):
 
-    form.widget('tal_condition', size=80)
+    form.widget("tal_condition", size=80)
     tal_condition = schema.TextLine(
-        title=_(u'TAL condition expression'),
-        description=_(u'Enter a TAL expression that once evaluated '
-                      'will return \'True\' if content should be '
-                      'available. Elements \'member\', \'context\' '
-                      'and \'portal\' are available for the '
-                      'expression.'),
+        title=_(u"TAL condition expression"),
+        description=_(
+            u"Enter a TAL expression that once evaluated "
+            "will return 'True' if content should be "
+            "available. Elements 'member', 'context' "
+            "and 'portal' are available for the "
+            "expression."
+        ),
         required=False,
-        default=u'',
+        default=u"",
     )
 
-    form.widget('roles_bypassing_talcondition', CheckBoxFieldWidget, multiple='multiple', size=15)
+    form.widget(
+        "roles_bypassing_talcondition",
+        CheckBoxFieldWidget,
+        multiple="multiple",
+        size=15,
+    )
     roles_bypassing_talcondition = schema.Set(
-        title=_(u'Roles that will bypass the TAL condition'),
-        description=_(u'Choose the different roles for which the TAL '
-                      'condition will not be evaluated and always '
-                      'considered \'True\'.'),
+        title=_(u"Roles that will bypass the TAL condition"),
+        description=_(
+            u"Choose the different roles for which the TAL "
+            "condition will not be evaluated and always "
+            "considered 'True'."
+        ),
         required=False,
-        value_type=schema.Choice(vocabulary='plone.app.vocabularies.Roles'),
+        value_type=schema.Choice(vocabulary="plone.app.vocabularies.Roles"),
     )
 
     def evaluate(self):
         """Evaluate the condition and returns True or False."""
+
 
 alsoProvides(ITALCondition, IFormFieldProvider)
 
 
 @implementer(ITALCondition)
 class TALCondition(object):
-    """
-    """
+    """ """
 
     adapts(IDexterityContent)
 
@@ -54,7 +63,7 @@ class TALCondition(object):
         self.context = context
 
     def get_tal_condition(self):
-        return getattr(self.context, 'tal_condition', '')
+        return getattr(self.context, "tal_condition", "")
 
     def set_tal_condition(self, value):
         self.context.tal_condition = value
@@ -62,12 +71,14 @@ class TALCondition(object):
     tal_condition = property(get_tal_condition, set_tal_condition)
 
     def get_roles_bypassing_talcondition(self):
-        return getattr(self.context, 'roles_bypassing_talcondition', [])
+        return getattr(self.context, "roles_bypassing_talcondition", [])
 
     def set_roles_bypassing_talcondition(self, value):
         self.context.roles_bypassing_talcondition = value
 
-    roles_bypassing_talcondition = property(get_roles_bypassing_talcondition, set_roles_bypassing_talcondition)
+    roles_bypassing_talcondition = property(
+        get_roles_bypassing_talcondition, set_roles_bypassing_talcondition
+    )
 
     def complete_extra_expr_ctx(self, extra_expr_ctx):
         """Complete extra_expr_ctx, this is made to be overrided."""
