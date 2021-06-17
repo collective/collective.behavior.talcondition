@@ -5,6 +5,8 @@ Changelog
 0.13 (unreleased)
 -----------------
 
+- Add uninstall profile
+  [boulch]
 - Add Plone6 compatibily
   [boulch]
 
