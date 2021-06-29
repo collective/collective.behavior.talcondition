@@ -5,7 +5,8 @@ Changelog
 0.14 (unreleased)
 -----------------
 
-- Nothing changed yet.
+- Fix pypi broken package
+  [boulch]
 
 
 0.13 (2021-06-29)
