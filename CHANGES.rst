@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-0.14 (unreleased)
+0.14 (2021-06-29)
 -----------------
 
 - Fix pypi broken package
