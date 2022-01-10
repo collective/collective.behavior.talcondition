@@ -2,6 +2,7 @@
 """Base module for unittesting."""
 
 from plone import api
+from collective.behavior.talcondition import PLONE_VERSION
 from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -21,40 +22,41 @@ import unittest
 class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_FIXTURE,)
-    products = ('collective.behavior.talcondition', )
+    products = ("collective.behavior.talcondition",)
 
     def setUpZope(self, app, configurationContext):
         """Set up Zope."""
         # Load ZCML
-        self.loadZCML(package=collective.behavior.talcondition,
-                      name='testing.zcml')
+        self.loadZCML(package=collective.behavior.talcondition, name="testing.zcml")
         for p in self.products:
             z2.installProduct(app, p)
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
         # Set default chain for plone.app.contenttypes
-        wftool = portal['portal_workflow']
-        wftool.setDefaultChain('simple_publication_workflow')
+        wftool = portal["portal_workflow"]
+        wftool.setDefaultChain("simple_publication_workflow")
 
         # Install into Plone
-        installer = portal['portal_quickinstaller']
-        installer.installProduct('collective.behavior.talcondition')
-        applyProfile(portal, 'collective.behavior.talcondition:testing')
+        if PLONE_VERSION < 5:
+            installer = portal["portal_quickinstaller"]
+            installer.installProduct("collective.behavior.talcondition")
+        applyProfile(portal, "collective.behavior.talcondition:testing")
 
         try:
-            applyProfile(portal, 'plone.app.contenttypes:plone-content')
+            applyProfile(portal, "plone.app.contenttypes:plone-content")
         except KeyError:
             # BBB Plone 4
             pass
 
         # Login and create some test content
-        setRoles(portal, TEST_USER_ID, ['Manager'])
+        setRoles(portal, TEST_USER_ID, ["Manager"])
         login(portal, TEST_USER_NAME)
-        api.content.create(container=portal, type='Folder', id='folder')
+        api.content.create(container=portal, type="Folder", id="folder")
 
         # Commit so that the test browser sees these objects
         import transaction
+
         transaction.commit()
 
     def tearDownZope(self, app):
@@ -62,24 +64,19 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
         for p in reversed(self.products):
             z2.uninstallProduct(app, p)
 
-FIXTURE = CollectiveBehaviorTalconditionLayer(
-    name="FIXTURE")
+
+FIXTURE = CollectiveBehaviorTalconditionLayer(name="FIXTURE")
 
 
-INTEGRATION = IntegrationTesting(
-    bases=(FIXTURE,),
-    name="INTEGRATION")
+INTEGRATION = IntegrationTesting(bases=(FIXTURE,), name="INTEGRATION")
 
 
-FUNCTIONAL = FunctionalTesting(
-    bases=(FIXTURE,),
-    name="FUNCTIONAL")
+FUNCTIONAL = FunctionalTesting(bases=(FIXTURE,), name="FUNCTIONAL")
 
 
-ACCEPTANCE = FunctionalTesting(bases=(FIXTURE,
-                                      AUTOLOGIN_LIBRARY_FIXTURE,
-                                      z2.ZSERVER_FIXTURE),
-                               name="ACCEPTANCE")
+ACCEPTANCE = FunctionalTesting(
+    bases=(FIXTURE, AUTOLOGIN_LIBRARY_FIXTURE, z2.ZSERVER_FIXTURE), name="ACCEPTANCE"
+)
 
 
 class IntegrationTestCase(unittest.TestCase):
@@ -89,7 +86,7 @@ class IntegrationTestCase(unittest.TestCase):
 
     def setUp(self):
         super(IntegrationTestCase, self).setUp()
-        self.portal = self.layer['portal']
+        self.portal = self.layer["portal"]
 
 
 class FunctionalTestCase(unittest.TestCase):

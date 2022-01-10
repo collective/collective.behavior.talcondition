@@ -2,11 +2,27 @@ Changelog
 =========
 
 
-0.13 (unreleased)
+0.15 (unreleased)
 -----------------
 
 - Fix deprecated import AccessControl.class_init instead of App.class_init 
   (Plone6 compatibility)
+  [boulch]
+
+
+0.14 (2021-06-29)
+-----------------
+
+- Fix pypi broken package
+  [boulch]
+
+
+0.13 (2021-06-29)
+-----------------
+
+- Add uninstall profile
+  [boulch]
+- Add Plone6 compatibily
   [boulch]
 
 
