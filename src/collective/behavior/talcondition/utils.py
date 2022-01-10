@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-try:
-    from AccessControl.class_init import InitializeClass
-except ImportError:
-    from App.class_init import InitializeClass
+from AccessControl.class_init import InitializeClass
 from collective.behavior.talcondition import PLONE_VERSION
 from plone import api
 from Products.CMFCore.Expression import createExprContext
