@@ -50,16 +50,10 @@ class TestUninstall(IntegrationTestCase):
             self.installer.uninstallProducts(["collective.behavior.talcondition"])
         else:
             self.installer = get_installer(self.portal, self.layer["request"])
-            import pdb
-
-            pdb.set_trace()
             self.installer.uninstall_product("collective.behavior.talcondition")
 
     def test_uninstall(self):
         """Test if collective.behavior.talcondition is cleanly uninstalled."""
-        import pdb
-
-        pdb.set_trace()
         if PLONE_VERSION < 5:
             self.assertFalse(
                 self.installer.isProductInstalled("collective.behavior.talcondition")
