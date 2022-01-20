@@ -1,8 +1,7 @@
 [report]
 include =
-    src/collective/*
+    src/collective/behavior/talcondition/*
 omit =
     */test*
     */upgrades/*
-    src/collective/__init__.py
-    src/collective/behavior/__init__.py
+    */__init__.py
