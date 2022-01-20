@@ -21,9 +21,6 @@ class TestInstall(IntegrationTestCase):
 
     def test_product_installed(self):
         """Test if collective.behavior.talcondition is installed with portal_quickinstaller."""
-        import pdb
-
-        pdb.set_trace()
         if PLONE_VERSION < 5:
             self.assertTrue(
                 self.installer.isProductInstalled("collective.behavior.talcondition")
