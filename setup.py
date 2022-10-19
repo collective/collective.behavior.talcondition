@@ -17,7 +17,7 @@ setup(
     version='0.15.dev0',
     description="This package contains a Dexterity behavior and AT schemaextender to add a TAL condition on a content type.",
     long_description=long_description,
-    # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+    # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Environment :: Web Environment",
         "Framework :: Plone",
