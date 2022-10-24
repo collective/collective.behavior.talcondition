@@ -39,13 +39,9 @@ jobs:
           path: ./eggs
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.python-version }}-${{ matrix.plone-version }}
           
-      # python install
-      - name: pip install
-        run: pip install -r requirements_plone${{ matrix.plone-version }}.txt
-
-      # buildout
-      - name: buildout
-        run: buildout -t 10 -c test_plone${{ matrix.plone-version }}.cfg
+      # build
+      - name: build
+        run: make plone${{ matrix.plone-version }}
 
       # test
       - name: test
