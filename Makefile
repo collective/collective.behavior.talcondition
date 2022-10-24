@@ -17,28 +17,24 @@ plone43:
 	make cleanall
 	virtualenv-2.7 venv-$(python-version)
 	make buildout plone-version=43
-	make run
 
 .PHONY: plone51
 plone51:
 	make cleanall
 	virtualenv-2.7 venv-$(python-version)
 	make buildout plone-version=51
-	make run
 
 .PHONY: plone52
 plone52:
 	make cleanall
 	python3 -m venv venv-3.8
 	make buildout plone-version=52
-	make run
 
 .PHONY: plone60
 plone60:
 	make cleanall
 	python3 -m venv venv-3.8
 	make buildout plone-version=60
-	make run
 
 .PHONY: run
 run:
