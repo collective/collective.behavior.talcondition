@@ -15,13 +15,13 @@ buildout:
 .PHONY: plone43
 plone43:
 	make cleanall
-	virtualenv-2.7 venv-$(python-version)
+	if command -v virtualenv-2.7; then virtualenv-2.7 venv-$(python-version) ; elif command -v python2 >/dev/null && command -v virtualenv; then virtualenv -p python2 venv-$(python-version) ; fi
 	make buildout plone-version=43
 
 .PHONY: plone51
 plone51:
 	make cleanall
-	virtualenv-2.7 venv-$(python-version)
+	if command -v virtualenv-2.7; then virtualenv-2.7 venv-$(python-version) ; elif command -v python2 >/dev/null && command -v virtualenv; then virtualenv -p python2 venv-$(python-version) ; fi
 	make buildout plone-version=51
 
 .PHONY: plone52
