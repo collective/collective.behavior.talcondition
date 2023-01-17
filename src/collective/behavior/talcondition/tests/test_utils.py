@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from AccessControl import Unauthorized
-from collective.behavior.talcondition import PLONE_VERSION
 from collective.behavior.talcondition.behavior import ITALCondition
-from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.testing import IntegrationTestCase
 from collective.behavior.talcondition.utils import _evaluateExpression
-from collective.behavior.talcondition.utils import applyExtender
 from collective.behavior.talcondition.utils import evaluateExpressionFor
 from plone.app.testing import login
 from plone.app.testing import TEST_USER_NAME
-from zope.interface import alsoProvides
-
-import unittest
 
 
 class TestUtils(IntegrationTestCase):
@@ -33,26 +27,6 @@ class TestUtils(IntegrationTestCase):
         # using a wrong expression does not break anything
         self.adapted.tal_condition = u'python: context.some_unexisting_method()'
         self.assertFalse(self.adapted.evaluate())
-
-    @unittest.skipIf(PLONE_VERSION >= 5, 'Archetypes extender test skipped in Plone 5')
-    def test_apply_extender(self):
-        """Test that existing objects are correctly updated
-           after enabling extender for their meta_type."""
-        # the extender is not enabled for "Folder"
-        login(self.portal, TEST_USER_NAME)
-        self.portal.invokeFactory(id='testfolder',
-                                  type_name='Folder',
-                                  title='Test folder')
-        testfolder = self.portal.testfolder
-        self.assertFalse(hasattr(testfolder, 'tal_condition'))
-        self.assertFalse(ITALConditionable.providedBy(testfolder))
-        # enable the extender for testfolder
-        alsoProvides(testfolder, ITALConditionable)
-        # the schema is not updated until we do it
-        self.assertFalse(hasattr(testfolder, 'tal_condition'))
-        applyExtender(self.portal, meta_types=('ATFolder', ))
-        # now the field is available
-        self.assertTrue(hasattr(testfolder, 'tal_condition'))
 
     def test_empty_condition(self):
         # using an empty expression is considered True

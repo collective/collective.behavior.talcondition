@@ -10,6 +10,4 @@ class ICollectiveBehaviorTalconditionLayer(IDefaultBrowserLayer):
 
 
 class ITALConditionable(Interface):
-    """
-    Marker interface for tal_condition field schema extender
-    """
+    """Marker interface for tal_condition field."""

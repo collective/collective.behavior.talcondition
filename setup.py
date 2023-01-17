@@ -15,7 +15,7 @@ long_description = (
 setup(
     name='collective.behavior.talcondition',
     version='0.15.dev0',
-    description="This package contains a Dexterity behavior and AT schemaextender to add a TAL condition on a content type.",
+    description="This package contains a Dexterity behavior to add a TAL condition on a content type.",
     long_description=long_description,
     # Get more from https://pypi.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -27,6 +27,8 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     keywords='Python Zope Plone',
     author='IMIO',

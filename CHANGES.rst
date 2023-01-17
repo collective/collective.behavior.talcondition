@@ -2,13 +2,15 @@ Changelog
 =========
 
 
-0.15 (unreleased)
------------------
+1.0 (unreleased)
+----------------
 
 - Fix deprecated import AccessControl.class_init instead of App.class_init 
   (Plone6 compatibility)
   [boulch]
-
+- Removed `archetypes.schemaextender` schema extender support,
+  only provides a dexterity behavior.
+  [gbastien]
 
 0.14 (2021-06-29)
 -----------------

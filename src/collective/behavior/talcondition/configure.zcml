@@ -12,7 +12,6 @@
     <five:registerPackage package="." initialize=".initialize" />
 
     <include package="plone.behavior" file="meta.zcml" />
-    <include package="plone.app.dexterity" />
 
     <plone:behavior
         title="TALCondition"
@@ -20,30 +19,21 @@
         provides=".behavior.ITALCondition"
         for="plone.dexterity.interfaces.IDexterityContent"
         factory=".behavior.TALCondition"
-        marker=".interfaces.ITALConditionable"
-        />
-
-    <adapter zcml:condition="not-have plone-5"
-             factory=".extender.TALConditionExtender"
-             for=".interfaces.ITALConditionable"
-             provides="archetypes.schemaextender.interfaces.ISchemaExtender"
-             name="collective.behavior.talcondition.extender" />
+        marker=".interfaces.ITALConditionable" />
 
     <genericsetup:registerProfile
         name="default"
         title="collective.behavior.talcondition"
         directory="profiles/default"
         description="Installs the collective.behavior.talcondition add-on."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+        provides="Products.GenericSetup.interfaces.EXTENSION" />
 
     <genericsetup:registerProfile
         name="uninstall"
         title="collective.behavior.talcondition"
         directory="profiles/uninstall"
         description="Uninstalls the collective.behavior.talcondition add-on."
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+        provides="Products.GenericSetup.interfaces.EXTENSION" />
 
     <genericsetup:importStep
         name="collective.behavior.talcondition-postInstall"

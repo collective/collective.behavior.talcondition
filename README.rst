@@ -9,7 +9,7 @@
 collective.behavior.talcondition
 ==========================================================================
 
-This package works for dexterity (behavior) and archetypes (schema extender).
+This package works for dexterity (behavior), version < 1.0 provides an archetypes schema extender.
 
 It adds two fields on a content type or class:
 
@@ -28,7 +28,7 @@ For DX you just have to activate the behavior on your content type.
 
 Plone versions
 ==============
-It has been developed and tested for Plone 4 and 5.
+It has been developed and tested for Plone 4, 5 and 6.
 
 
 Translations
