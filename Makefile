@@ -1,35 +1,79 @@
 #!/usr/bin/make
-#
-all: run
+# pyenv is a requirement, with 2.7, 3.7 and 3.10 python versions, and virtualenv installed in each version
+# plone parameter must be passed to create environment or after a make cleanall
 
-BUILDOUT_FILES = bin/buildout buildout.cfg buildout.d/*.cfg
+SHELL=/bin/bash
+plones=4.3 5.2 6.0
+b_o=
 
-.PHONY: bootstrap buildout run test cleanall
-bin/buildout: bootstrap.py buildout.cfg
-	virtualenv-2.7 .
-	bin/pip install -r requirements.txt
-	./bin/python bootstrap.py
-	touch $@
+ifeq (, $(shell which pyenv))
+  $(error "pyenv command not found! Aborting")
+endif
 
-buildout: bin/buildout
-	bin/buildout -t 5
+ifndef plone
+  plone=$(shell cat .plone-version)
+  b_o=-N
+endif
 
-bootstrap: bin/buildout
+ifndef python
+ifeq ($(plone),4.3)
+  python=2.7
+endif
+ifeq ($(plone),5.2)
+  python=3.7
+endif
+ifeq ($(plone),6.0)
+  python=3.10
+endif
+endif
 
-run: bin/instance 
-	bin/instance fg
+all: buildout
 
-bin/instance: $(BUILDOUT_FILES)
-	bin/buildout -Nvt 5
-	touch $@
+.PHONY: help
+help:
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
-test: bin/test
-	rm -fr htmlcov
-	bin/test
+.python-version:  ## Setups pyenv version
+	@pyenv local `pyenv versions |grep "  $(python)" |xargs`
+	@echo "Local pyenv version is `cat .python-version`"
+	@ if [[ `pyenv which virtualenv` != `pyenv prefix`* ]] ; then echo "You need to install virtualenv in `cat .python-version` pyenv python (pip install virtualenv)"; exit 1; fi
 
-bin/test: $(BUILDOUT_FILES)
-	bin/buildout -Nvt 5
-	touch $@
+bin/buildout: .python-version  ## Setups environment
+	virtualenv .
+	./bin/pip install --upgrade pip
+	./bin/pip install -r requirements-$(plone).txt
+	@echo "$(plone)" > .plone-version
 
-cleanall:
-	rm -fr bin develop-eggs htmlcov include .installed.cfg lib .mr.developer.cfg parts downloads eggs
+.PHONY: setup
+setup: cleanall oneof-plone bin/buildout ## Setups environment
+
+.PHONY: buildout
+buildout: oneof-plone bin/buildout  ## Runs setup and buildout
+	rm -f .installed.cfg .mr.developer.cfg
+	bin/buildout -t 5 -c test-$(plone).cfg ${b_o}
+
+.PHONY: cleanall
+cleanall:  ## Cleans all installed buildout files
+	rm -fr bin include lib local share develop-eggs downloads eggs parts .installed.cfg .mr.developer.cfg .python-version .plone-version pyvenv.cfg
+
+.PHONY: which-python
+which-python: oneof-plone  ## Displays versions information
+	@echo "plone var = $(plone)"
+	@echo "python var = $(python)"
+	@echo "python env = `cat .python-version`"
+
+.PHONY: vcr
+vcr:  ## Shows requirements in checkversion-r.html
+	@bin/versioncheck -rbo checkversion-r-$(plone).html test-$(plone).cfg
+
+.PHONY: vcn
+vcn:  ## Shows newer packages in checkversion-n.html
+	@bin/versioncheck -npbo checkversion-n-$(plone).html test-$(plone).cfg
+
+.PHONY: guard-%
+guard-%:
+	@ if [ "${${*}}" = "" ]; then echo "You must give a value for variable '$*' : like $*=xxx"; exit 1; fi
+
+.PHONY: oneof-%
+oneof-%:
+	@ if ! echo "${${*}s}" | tr " " '\n' |grep -Fqx "${${*}}"; then echo "Invalid '$*' parameter ('${${*}}') : must be one of '${${*}s}'"; exit 1; fi

@@ -3,6 +3,8 @@
 *.pyc
 .installed.cfg
 .mr.developer.cfg
+.plone-version
+.plone.versioncheck.tracked.json
 .project
 .pydevproject
 .settings/
