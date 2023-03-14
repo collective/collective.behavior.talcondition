@@ -8,7 +8,8 @@ Changelog
 - Fix deprecated import AccessControl.class_init instead of App.class_init 
   (Plone6 compatibility)
   [boulch]
-
+- Set simplier setup with Makefile
+  [sgeulette]
 
 0.14 (2021-06-29)
 -----------------
