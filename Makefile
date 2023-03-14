@@ -11,7 +11,7 @@ ifeq (, $(shell which pyenv))
 endif
 
 ifndef plone
-  plone=$(shell cat .plone-version)
+  plone=$(shell [ -e .plone-version ] && cat .plone-version)
   b_o=-N
 endif
 
@@ -45,7 +45,7 @@ bin/buildout: .python-version  ## Setups environment
 	@echo "$(plone)" > .plone-version
 
 .PHONY: setup
-setup: cleanall oneof-plone bin/buildout ## Setups environment
+setup: oneof-plone cleanall bin/buildout ## Setups environment
 
 .PHONY: buildout
 buildout: oneof-plone bin/buildout  ## Runs setup and buildout
