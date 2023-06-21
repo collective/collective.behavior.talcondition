@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-0.15 (unreleased)
------------------
+1.0a1 (2023-06-21)
+------------------
 
 - Fix deprecated import AccessControl.class_init instead of App.class_init 
   (Plone6 compatibility)
