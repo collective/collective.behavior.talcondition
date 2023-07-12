@@ -66,7 +66,7 @@ jobs:
       - name: Setup Env
         run: |
           pip install --upgrade pip
-          pip install -r requirements-${{matrix-plone}}.txt
+          pip install -r requirements-${{matrix.plone}}.txt
           pip install -U coveralls coverage
       - name: Cache eggs
         uses: actions/cache@v2
@@ -74,11 +74,11 @@ jobs:
           cache-name: cache-eggs
         with:
           path: ~/buildout-cache/eggs
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix-plone }}
-          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix-plone }}
+          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
+          restore-keys: ${{ runner.os }}-test-${{ env.cache-name }}-${{ matrix.plone }}
       - name: buildout
         run: |
-          sed -ie "s#test.cfg#test-${{matrix-plone}}.cfg#" gha.cfg
+          sed -ie "s#test.cfg#test-${{matrix.plone}}.cfg#" gha.cfg
           buildout -c gha.cfg
       - name: code-analysis
         run: |
