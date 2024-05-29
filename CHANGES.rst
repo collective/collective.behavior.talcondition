@@ -5,8 +5,8 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Fix dict iteration for Python 3
+  [laulaz]
 
 1.0a1 (2023-06-21)
 ------------------

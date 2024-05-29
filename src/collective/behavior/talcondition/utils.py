@@ -73,7 +73,7 @@ def _evaluateExpression(
     ctx.setGlobal("member", member)
     ctx.setGlobal("context", obj)
     ctx.setGlobal("portal", portal)
-    for extra_key, extra_value in extra_expr_ctx.items():
+    for extra_key, extra_value in list(extra_expr_ctx.items()):
         ctx.setGlobal(extra_key, extra_value)
 
     if raise_on_error:
