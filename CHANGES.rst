@@ -7,11 +7,15 @@ Changelog
 
 - Fix dict iteration for Python 3
   [laulaz]
+- Updated Makefile
+  [sgeulette]
+- Used pyenv in gha
+  [sgeulette]
 
 1.0a1 (2023-06-21)
 ------------------
 
-- Fix deprecated import AccessControl.class_init instead of App.class_init 
+- Fix deprecated import AccessControl.class_init instead of App.class_init
   (Plone6 compatibility)
   [boulch]
 - Set simplier setup with Makefile
