@@ -5,8 +5,8 @@ Changelog
 1.0a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Generated universal wheel version.
+  [sgeulette]
 
 1.0a2 (2024-09-16)
 ------------------
