@@ -5,8 +5,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added Plone 6.1 version in buildout.
+  [sgeulette]
 
 1.0.0 (2024-09-18)
 ------------------
