@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.1 (unreleased)
+1.1.0 (2025-05-05)
 ------------------
 
 - Added Plone 6.1 version in buildout.
