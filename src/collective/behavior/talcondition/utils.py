@@ -73,6 +73,8 @@ def _evaluateExpression(
     ctx.setGlobal("member", member)
     ctx.setGlobal("context", obj)
     ctx.setGlobal("portal", portal)
+    ctx.setGlobal('checkPermission', portal.portal_membership.checkPermission)
+
     for extra_key, extra_value in list(extra_expr_ctx.items()):
         ctx.setGlobal(extra_key, extra_value)
 

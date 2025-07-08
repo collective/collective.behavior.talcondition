@@ -5,8 +5,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added `checkPermission` from `portal_membership` to base expression context.
+  [gbastien]
 
 1.1.0 (2025-05-05)
 ------------------

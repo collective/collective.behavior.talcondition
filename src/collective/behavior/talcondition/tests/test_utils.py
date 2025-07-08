@@ -9,6 +9,8 @@ from collective.behavior.talcondition.utils import _evaluateExpression
 from collective.behavior.talcondition.utils import applyExtender
 from collective.behavior.talcondition.utils import evaluateExpressionFor
 from plone.app.testing import login
+from plone.app.testing import logout
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from zope.interface import alsoProvides
 
@@ -75,6 +77,26 @@ class TestUtils(IntegrationTestCase):
         self.adapted.tal_condition = "python: value == '122'"
         self.assertFalse(evaluateExpressionFor(self.adapted))
         self.assertTrue(evaluateExpressionFor(self.adapted, {'value': '122'}))
+
+    def test_base_expr_context(self):
+        """Test the elements available by default in the expression."""
+        self.assertEqual(_evaluateExpression(
+            self.portal, expression='portal/id'), 'plone')
+        self.assertEqual(_evaluateExpression(
+            self.portal, expression='member/id'), TEST_USER_ID)
+        self.assertEqual(_evaluateExpression(
+            self.portal, expression='context/Title'), 'Plone site')
+        self.assertTrue(_evaluateExpression(
+            self.portal, expression='python: checkPermission("View", portal)'))
+        self.assertTrue(_evaluateExpression(
+            self.portal,
+            expression='python: checkPermission("Modify portal content", portal)'))
+        logout()
+        self.assertTrue(_evaluateExpression(
+            self.portal, expression='python: checkPermission("View", portal)'))
+        self.assertFalse(_evaluateExpression(
+            self.portal,
+            expression='python: checkPermission("Modify portal content", portal)'))
 
     def test_empty_expr_is_true(self):
         """Test parameter used by utils._evaluateExpression making an empty
