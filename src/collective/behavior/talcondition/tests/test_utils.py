@@ -81,11 +81,11 @@ class TestUtils(IntegrationTestCase):
     def test_base_expr_context(self):
         """Test the elements available by default in the expression."""
         self.assertEqual(_evaluateExpression(
-            self.portal, expression='portal/id'), 'plone')
+            self.portal, expression='portal/getId'), 'plone')
         self.assertEqual(_evaluateExpression(
-            self.portal, expression='member/id'), TEST_USER_ID)
+            self.portal, expression='member/getId'), TEST_USER_ID)
         self.assertEqual(_evaluateExpression(
-            self.portal, expression='context/Title'), 'Plone site')
+            self.portal, expression='context/getPortalTypeName'), 'Plone Site')
         self.assertTrue(_evaluateExpression(
             self.portal, expression='python: checkPermission("View", portal)'))
         self.assertTrue(_evaluateExpression(
