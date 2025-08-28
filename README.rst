@@ -1,8 +1,12 @@
-.. image:: https://travis-ci.org/collective/collective.behavior.talcondition.svg?branch=master
-    :target: https://travis-ci.org/collective/collective.behavior.talcondition
+.. image:: https://github.com/IMIO/collective.behavior.talcondition/actions/workflows/main.yml/badge.svg?branch=master
+    :target: https://github.com/IMIO/collective.behavior.talcondition/actions/workflows/main.yml
 
 .. image:: https://coveralls.io/repos/collective/collective.behavior.talcondition/badge.png
   :target: https://coveralls.io/r/collective/collective.behavior.talcondition
+
+.. image:: http://img.shields.io/pypi/v/collective.behavior.talcondition.svg
+   :alt: PyPI badge
+   :target: https://pypi.org/project/collective.behavior.talcondition
 
 
 ==========================================================================
