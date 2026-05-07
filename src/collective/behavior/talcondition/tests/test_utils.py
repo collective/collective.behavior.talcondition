@@ -120,6 +120,21 @@ class TestUtils(IntegrationTestCase):
         self.assertFalse(evaluateExpressionFor(self.adapted))
         self.assertRaises(AttributeError, evaluateExpressionFor, self.adapted, raise_on_error=True)
 
+    def test_return_bool(self):
+        """Test parameter used by utils._evaluateExpression making sure returned result is a boolean."""
+        self.assertEqual(_evaluateExpression(self.portal, expression=''), True)
+        self.assertEqual(_evaluateExpression(self.portal, expression='', return_bool=True), True)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: wrong'), False)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: wrong', return_bool=True), False)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: "wrong"'), "wrong")
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: "wrong"', return_bool=True), True)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: {}'), {})
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: {}', return_bool=True), False)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: True'), True)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: True', return_bool=True), True)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: False'), False)
+        self.assertEqual(_evaluateExpression(self.portal, expression='python: False', return_bool=True), False)
+
     def test_trusted(self):
         self.assertRaises(Unauthorized,
                           _evaluateExpression,
