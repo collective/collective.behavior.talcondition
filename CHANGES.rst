@@ -5,8 +5,10 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Added parameter `return_bool=False` to `utils.evaluateExpressionFor` and
+  `utils._evaluateExpression` to ensure that returned result will always be
+  a bool (`True` or `False`).
+  [gbastien]
 
 1.1.1 (2025-08-28)
 ------------------

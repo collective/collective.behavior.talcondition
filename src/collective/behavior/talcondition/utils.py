@@ -24,6 +24,7 @@ def evaluateExpressionFor(
     error_pattern=WRONG_TAL_CONDITION,
     raise_on_error=False,
     trusted=False,
+    return_bool=False,
 ):
     """Evaluate the expression stored in 'tal_condition' of given p_obj."""
     # get tal_condition
@@ -41,6 +42,7 @@ def evaluateExpressionFor(
         error_pattern=error_pattern,
         raise_on_error=raise_on_error,
         trusted=trusted,
+        return_bool=return_bool,
     )
 
 
@@ -53,6 +55,7 @@ def _evaluateExpression(
     error_pattern=WRONG_TAL_CONDITION,
     raise_on_error=False,
     trusted=False,
+    return_bool=False,
 ):
     """Evaluate given p_expression extending expression context with p_extra_expr_ctx."""
     if not expression or not expression.strip():
@@ -86,6 +89,8 @@ def _evaluateExpression(
         except Exception as e:
             logger.warn(error_pattern.format(expression, obj.absolute_url(), str(e)))
             res = False
+    if return_bool:
+        res = bool(res)
     return res
 
 
