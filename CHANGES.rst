@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.2 (unreleased)
+1.1.2 (2026-05-20)
 ------------------
 
 - Added parameter `return_bool=False` to `utils.evaluateExpressionFor` and
