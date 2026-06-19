@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.3 (unreleased)
+1.1.3 (2026-06-19)
 ------------------
 
 - In case an error occurs, output more informations to the log.
