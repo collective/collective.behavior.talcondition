@@ -81,13 +81,14 @@ def _evaluateExpression(
     for extra_key, extra_value in list(extra_expr_ctx.items()):
         ctx.setGlobal(extra_key, extra_value)
 
-    if raise_on_error:
+    try:
         res = expr_handler(expression)(ctx)
-    else:
-        try:
-            res = expr_handler(expression)(ctx)
-        except Exception as e:
-            logger.warn(error_pattern.format(expression, obj.absolute_url(), str(e)))
+    except Exception as e:
+        logger.warn(error_pattern.format(expression, obj.absolute_url(), str(e)))
+        logger.warn(str(ctx.__dict__))
+        if raise_on_error:
+            raise(e)
+        else:
             res = False
     if return_bool:
         res = bool(res)

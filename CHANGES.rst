@@ -5,8 +5,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- In case an error occurs, output more informations to the log.
+  [gbastien]
 
 1.1.2 (2026-05-20)
 ------------------
