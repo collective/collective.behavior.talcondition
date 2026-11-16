@@ -5,7 +5,9 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Use native namespace packages (PEP 420). Remove the `pkg_resources` namespace declarations.
+  This version needs Python 3.10 or later and Plone 6.2.
+  [boulch]
 
 
 1.1.3 (2026-06-19)

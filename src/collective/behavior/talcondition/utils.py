@@ -87,7 +87,7 @@ def _evaluateExpression(
         logger.warn(error_pattern.format(expression, obj.absolute_url(), str(e)))
         logger.warn(str(ctx.__dict__))
         if raise_on_error:
-            raise(e)
+            raise e
         else:
             res = False
     if return_bool:
