@@ -1,7 +1,10 @@
 graft src/collective
-include LICENSE.GPL
+graft news
 include *.md
-global-exclude *.pyc *.sh *.pot
-exclude Makefile *.cfg .coveragerc .travis.yml bootstrap.py *.txt
-prune buildout.d
+include LICENSE.GPL
+exclude Makefile
+exclude mx.ini
+exclude instance.yaml
 prune .tx
+global-exclude *.pyc
+global-exclude .DS_Store
