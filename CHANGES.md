@@ -13,6 +13,18 @@
   `PLONE_VERSION` constant. Use 1.1.3 for older Plone versions.
   [remdub]
 
+- Take `get_installer` from `plone.base` and the test layer helpers from
+  `plone.testing.zope` instead of the aliases Plone 6.2 deprecates. Log with
+  `logger.warning` instead of the deprecated `logger.warn`.
+  [remdub]
+
+- Configure the package with plone.meta 2.12.0 (test matrix on Plone 6.2.3
+  with Python 3.10 to 3.14), move its metadata to `pyproject.toml`, convert
+  the documentation to Markdown and run the development environment on
+  Plone 6.2.3 with uv instead of buildout. Drop the buildout configuration,
+  the hand-written GitHub workflow and the empty robot test setup.
+  [remdub]
+
 
 ## 1.1.3 (2026-06-19)
 
