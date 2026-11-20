@@ -1,7 +1,0 @@
-[report]
-include =
-    src/collective/behavior/talcondition/*
-omit =
-    */test*
-    */upgrades/*
-    */__init__.py

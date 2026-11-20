@@ -1,5 +1,7 @@
 # Changelog
 
+<!-- towncrier release notes start -->
+
 ## 1.1.4 (unreleased)
 
 - Use native namespace packages (PEP 420). Remove the `pkg_resources` namespace declarations.
