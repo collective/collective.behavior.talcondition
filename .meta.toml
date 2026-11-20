@@ -14,6 +14,12 @@ htmlcov/
 requirements.txt
 """
 
+[pyproject]
+# Not imported, but needed: plone.app.vocabularies provides the Roles
+# vocabulary of the behavior, and the test layer applies the
+# plone-content profile of plone.app.contenttypes.
+dependencies_ignores = "['zestreleaser.towncrier', 'zest.releaser', 'zope.testrunner', 'plone.app.vocabularies', 'plone.app.contenttypes']"
+
 [tox]
 test_matrix = {"6.2" = ["3.14", "3.13", "3.12", "3.11", "3.10"]}
 constraints_files = {"6.2" = "https://dist.plone.org/release/6.2.3/constraints.txt"}
