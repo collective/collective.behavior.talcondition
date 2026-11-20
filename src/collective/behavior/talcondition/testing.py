@@ -3,7 +3,6 @@
 
 from collective.behavior.talcondition import PLONE_VERSION
 from plone import api
-from plone.app.robotframework.testing import AUTOLOGIN_LIBRARY_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
@@ -72,11 +71,6 @@ INTEGRATION = IntegrationTesting(bases=(FIXTURE,), name="INTEGRATION")
 
 
 FUNCTIONAL = FunctionalTesting(bases=(FIXTURE,), name="FUNCTIONAL")
-
-
-ACCEPTANCE = FunctionalTesting(
-    bases=(FIXTURE, AUTOLOGIN_LIBRARY_FIXTURE, z2.ZSERVER_FIXTURE), name="ACCEPTANCE"
-)
 
 
 class IntegrationTestCase(unittest.TestCase):

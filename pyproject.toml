@@ -4,7 +4,73 @@
 [build-system]
 requires = ["setuptools>=68.2,<83", "wheel"]
 
+# START-MARKER-MANUAL-CONFIG
+# Anything from here until END-MARKER-MANUAL-CONFIG
+# will be kept by plone.meta
 
+[project]
+name = "collective.behavior.talcondition"
+version = "1.1.4.dev0"
+description = "This package contains a Dexterity behavior and AT schemaextender to add a TAL condition on a content type."
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Plone",
+    "Framework :: Plone :: 6.2",
+    "Framework :: Plone :: Addon",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+license = "GPL-2.0-only"
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "IMIO",email = "dev@imio.be"},
+]
+dependencies = [
+    "Products.CMFCore",
+    "Products.GenericSetup",
+    "Zope",
+    "plone.api",
+    "plone.app.dexterity",
+    "plone.app.vocabularies",
+    "plone.autoform",
+    "plone.behavior",
+    "plone.dexterity",
+    "plone.supermodel",
+    "z3c.form",
+]
+keywords = ["Python", "Zope", "Plone"]
+
+[project.entry-points."plone.autoinclude.plugin"]
+target = "plone"
+
+[project.optional-dependencies]
+test = [
+    "plone.app.contenttypes",
+    "plone.app.testing",
+    "plone.browserlayer",
+    "plone.testing",
+    "zest.releaser[recommended]",
+    "zestreleaser.towncrier",
+    "zope.testrunner",
+]
+
+[project.urls]
+PyPI = "https://pypi.org/project/collective.behavior.talcondition"
+Source = "https://github.com/collective/collective.behavior.talcondition"
+Issues = "https://github.com/collective/collective.behavior.talcondition/issues"
+Changelog = "https://github.com/collective/collective.behavior.talcondition/blob/master/CHANGES.md"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md", "CONTRIBUTORS.md", "CHANGES.md"], content-type = "text/markdown"}
+# END-MARKER-MANUAL-CONFIG
 
 [tool.towncrier]
 directory = "news/"
