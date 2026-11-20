@@ -1,103 +1,143 @@
-#!/usr/bin/make
-# pyenv is a requirement, with 2.7, 3.7, 3.10, 3.13 python versions, and virtualenv installed in each version
-# plone parameter must be passed to create environment 'make setup plone=6.0' or after a make cleanall
-# The original Makefile can be found on https://github.com/IMIO/scripts-buildout
+### Defensive settings for make:
+#     https://tech.davis-hansson.com/p/make/
+SHELL:=bash
+.ONESHELL:
+.SHELLFLAGS:=-xeu -o pipefail -O inherit_errexit -c
+.SILENT:
+.DELETE_ON_ERROR:
+MAKEFLAGS+=--warn-undefined-variables
+MAKEFLAGS+=--no-builtin-rules
 
-SHELL=/bin/bash
-plones=4.3 5.2 6.0 6.1
-b_o=
-old_plone=$(shell [ -e .plone-version ] && cat .plone-version)
+# We like colors
+# From: https://coderwall.com/p/izxssa/colored-makefile-for-golang-projects
+RED=`tput setaf 1`
+GREEN=`tput setaf 2`
+RESET=`tput sgr0`
+YELLOW=`tput setaf 3`
 
-ifeq (, $(shell which pyenv))
-  $(error "pyenv command not found! Aborting")
-endif
+# Python checks
+UV?=uv
 
-ifndef plone
-ifeq (,$(filter setup,$(MAKECMDGOALS)))
-  plone=$(old_plone)
-endif
-endif
-
-ifneq ($(wildcard bin/instance),)
-    b_o=-N
-endif
-
-ifndef python
-ifeq ($(plone),4.3)
-  python=2.7
-endif
-ifeq ($(plone),5.2)
-  python=3.7
-endif
-ifeq ($(plone),6.0)
-  python=3.10
-endif
-ifeq ($(plone),6.1)
-  python=3.13
-endif
+# installed?
+ifeq (, $(shell which $(UV) ))
+  $(error "UV=$(UV) not found in $(PATH)")
 endif
 
-all: buildout
+BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
+ifdef PLONE_VERSION
+PLONE_VERSION := $(PLONE_VERSION)
+else
+PLONE_VERSION := 6.2.3
+endif
+
+ifdef CI
+UV_VENV_ARGS :=
+else
+UV_VENV_ARGS := --python=3.12
+endif
+
+GIT_FOLDER=$(BACKEND_FOLDER)/.git
+VENV_FOLDER=$(BACKEND_FOLDER)/.venv
+export VIRTUAL_ENV=$(VENV_FOLDER)
+BIN_FOLDER=$(VENV_FOLDER)/bin
+
+# Tests and QA run through tox, configured by plone.meta
+TOX=uvx --with tox-uv tox
+
+# Environment variables to be exported
+export PYTHONWARNINGS := ignore
+
+all: install
+
+# Add the following 'help' target to your Makefile
+# And add help text after each target name starting with '\#\#'
 .PHONY: help
-help:
-	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
+help: ## This help message
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-.python-version:  ## Setups pyenv version
-	@pyenv local `pyenv versions |grep "  $(python)" |tail -1 |xargs`
-	@echo "Local pyenv version is `cat .python-version`"
-	@ if [[ `pyenv which virtualenv` != `pyenv prefix`* ]] ; then echo "You need to install virtualenv in `cat .python-version` pyenv python (pip install virtualenv)"; exit 1; fi
+requirements-mxdev.txt: pyproject.toml mx.ini ## Generate constraints file
+	@echo "$(GREEN)==> Generate constraints file$(RESET)"
+	@echo '-c https://dist.plone.org/release/$(PLONE_VERSION)/constraints.txt' > requirements.txt
+	@uvx 'mxdev[uv]' -c mx.ini
 
-bin/buildout: .python-version  ## Setups environment
-	virtualenv .
-	./bin/pip install --upgrade pip
-	./bin/pip install -r requirements-$(plone).txt
-	@echo "$(plone)" > .plone-version
+$(VENV_FOLDER): requirements-mxdev.txt ## Install dependencies
+	@echo "$(GREEN)==> Install environment$(RESET)"
+	@if [[ -d "$(VENV_FOLDER)" ]]; then echo "$(YELLOW)==> Environment already exists at $(VENV_FOLDER)$(RESET)"; else uv venv $(UV_VENV_ARGS) $(VENV_FOLDER); fi
+	@uv pip install -r requirements-mxdev.txt
+	@uv pip install prek
+	@if [[ -d "$(GIT_FOLDER)" ]]; then $(BIN_FOLDER)/prek install; else echo "$(RED)==> Not installing pre-commit hooks$(RESET)"; fi
 
-.PHONY: setup
-setup: oneof-plone backup cleanall bin/buildout restore  ## Setups environment
+.PHONY: sync
+sync: $(VENV_FOLDER) ## Sync project dependencies
+	@echo "$(GREEN)==> Sync project dependencies$(RESET)"
+	@uv pip install -r requirements-mxdev.txt
 
-.PHONY: buildout
-buildout: oneof-plone bin/buildout  ## Runs setup and buildout
-	rm -f .installed.cfg .mr.developer.cfg
-	bin/buildout -t 5 -c test-$(plone).cfg ${b_o}
+instance/etc/zope.ini instance/etc/zope.conf: instance.yaml ## Create instance configuration
+	@echo "$(GREEN)==> Create instance configuration$(RESET)"
+	@uvx cookiecutter -f --no-input -c 3.1.0 --config-file instance.yaml gh:plone/cookiecutter-zope-instance
 
+.PHONY: config
+config: instance/etc/zope.ini
+
+.PHONY: install
+install: $(VENV_FOLDER) config ## Install Plone and dependencies
+
+.PHONY: build
+build: install ## Alias of install
+
+.PHONY: clean
+clean: ## Clean installation and instance (data left intact)
+	@echo "$(RED)==> Cleaning environment and build$(RESET)"
+	@rm -rf $(VENV_FOLDER) pyvenv.cfg .installed.cfg instance/etc .venv .pytest_cache .ruff_cache constraints* requirements*
+	@rm -rf .tox build dist htmlcov .coverage coverage.xml src/*.egg-info
+
+.PHONY: remove-data
+remove-data: ## Remove all content
+	@echo "$(RED)==> Removing all content$(RESET)"
+	rm -rf $(VENV_FOLDER) instance/var
+
+.PHONY: start
+start: $(VENV_FOLDER) instance/etc/zope.ini ## Start a Plone instance on localhost:8080
+	@$(BIN_FOLDER)/runwsgi instance/etc/zope.ini
+
+.PHONY: console
+console: $(VENV_FOLDER) instance/etc/zope.ini ## Start a console into a Plone instance
+	@$(BIN_FOLDER)/zconsole debug instance/etc/zope.conf
+
+# QA
+.PHONY: lint
+lint: ## Run pre-commit hooks (black, isort, flake8, zpretty, codespell...)
+	@echo "$(GREEN)==> Lint codebase$(RESET)"
+	@$(TOX) -e lint
+
+.PHONY: format
+format: ## Reformat code (pyupgrade, isort, black, zpretty)
+	@echo "$(GREEN)==> Format codebase$(RESET)"
+	@$(TOX) -e format
+
+.PHONY: check
+check: format lint ## Check and fix code base according to Plone standards
+
+# i18n
+$(BIN_FOLDER)/i18ndude: $(VENV_FOLDER)
+	@echo "$(GREEN)==> Install translation tools$(RESET)"
+	@uv pip install i18ndude
+
+.PHONY: i18n
+i18n: $(BIN_FOLDER)/i18ndude ## Update locales
+	@echo "$(GREEN)==> Updating locales$(RESET)"
+	@cd src/collective/behavior/talcondition/locales && PATH=$(BIN_FOLDER):$$PATH ./update.sh
+
+# Tests
 .PHONY: test
-test: oneof-plone bin/buildout  ## run bin/test without robot
-	# can be run by example with: make test opt='-t "settings"'
-	bin/test -t \!robot ${opt}
+test: ## Run tests with Plone 6.2.3
+	@$(TOX) -e test
 
-.PHONY: cleanall
-cleanall:  ## Cleans all installed buildout files
-	rm -fr bin include lib local share develop-eggs downloads eggs parts .installed.cfg .mr.developer.cfg .python-version pyvenv.cfg
+.PHONY: test-coverage
+test-coverage: ## Run tests with coverage
+	@$(TOX) -e coverage
 
-.PHONY: backup
-backup:  ## Backups db files
-	@if [ '$(old_plone)' != '' ] && [ -f var/filestorage/Data.fs ]; then mv var/filestorage/Data.fs var/filestorage/Data.fs.$(old_plone); mv var/blobstorage var/blobstorage.$(old_plone); fi
-
-.PHONY: restore
-restore:  ## Restores db files
-	@if [ '$(plone)' != '' ] && [ -f var/filestorage/Data.fs.$(plone) ]; then mv var/filestorage/Data.fs.$(plone) var/filestorage/Data.fs; mv var/blobstorage.$(plone) var/blobstorage; fi
-
-.PHONY: which-python
-which-python: oneof-plone  ## Displays versions information
-	@echo "current plone = $(old_plone)"
-	@echo "current python = `cat .python-version`"
-	@echo "plone var = $(plone)"
-	@echo "python var = $(python)"
-
-.PHONY: vcr
-vcr:  ## Shows requirements in checkversion-r.html
-	@bin/versioncheck -rbo checkversion-r-$(plone).html test-$(plone).cfg
-
-.PHONY: vcn
-vcn:  ## Shows newer packages in checkversion-n.html
-	@bin/versioncheck -npbo checkversion-n-$(plone).html test-$(plone).cfg
-
-.PHONY: guard-%
-guard-%:
-	@ if [ "${${*}}" = "" ]; then echo "You must give a value for variable '$*' : like $*=xxx"; exit 1; fi
-
-.PHONY: oneof-%
-oneof-%:
-	@ if ! echo "${${*}s}" | tr " " '\n' |grep -Fqx "${${*}}"; then echo "Invalid '$*' parameter ('${${*}}') : must be one of '${${*}s}'"; exit 1; fi
+.PHONY: test-all
+test-all: ## Run lint, all supported Python / Plone versions and dependency checks
+	@$(TOX)

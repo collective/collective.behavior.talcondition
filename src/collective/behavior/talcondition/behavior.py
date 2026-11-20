@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from collective.behavior.talcondition import _
 from collective.behavior.talcondition.utils import evaluateExpressionFor
 from plone.autoform import directives as form
@@ -17,16 +15,16 @@ class ITALCondition(model.Schema):
 
     form.widget("tal_condition", size=80)
     tal_condition = schema.TextLine(
-        title=_(u"TAL condition expression"),
+        title=_("TAL condition expression"),
         description=_(
-            u"Enter a TAL expression that once evaluated "
+            "Enter a TAL expression that once evaluated "
             "will return 'True' if content should be "
             "available. Elements 'member', 'context' "
             "and 'portal' are available for the "
             "expression."
         ),
         required=False,
-        default=u"",
+        default="",
     )
 
     form.widget(
@@ -36,9 +34,9 @@ class ITALCondition(model.Schema):
         size=15,
     )
     roles_bypassing_talcondition = schema.Set(
-        title=_(u"Roles that will bypass the TAL condition"),
+        title=_("Roles that will bypass the TAL condition"),
         description=_(
-            u"Choose the different roles for which the TAL "
+            "Choose the different roles for which the TAL "
             "condition will not be evaluated and always "
             "considered 'True'."
         ),
@@ -54,7 +52,7 @@ alsoProvides(ITALCondition, IFormFieldProvider)
 
 
 @implementer(ITALCondition)
-class TALCondition(object):
+class TALCondition:
     """ """
 
     adapts(IDexterityContent)
@@ -81,7 +79,7 @@ class TALCondition(object):
     )
 
     def complete_extra_expr_ctx(self, extra_expr_ctx):
-        """Complete extra_expr_ctx, this is made to be overrided."""
+        """Complete extra_expr_ctx, this is made to be overridden."""
         return extra_expr_ctx
 
     def evaluate(self, extra_expr_ctx={}):

@@ -1,47 +1,64 @@
-Changelog
-=========
+# Changelog
+
+<!-- towncrier release notes start -->
+
+## 2.0.0 (unreleased)
+
+- Use native namespace packages (PEP 420). Remove the `pkg_resources` namespace declarations.
+  This version needs Python 3.10 or later and Plone 6.2.
+  [boulch]
+
+- Breaking: drop the Archetypes schema extender (`extender.py` and
+  `utils.applyExtender`) and the code for Plone 4 and 5, including the
+  `PLONE_VERSION` constant. Use 1.1.3 for older Plone versions.
+  [remdub]
+
+- Take `get_installer` from `plone.base` and the test layer helpers from
+  `plone.testing.zope` instead of the aliases Plone 6.2 deprecates. Log with
+  `logger.warning` instead of the deprecated `logger.warn`.
+  [remdub]
+
+- Configure the package with plone.meta 2.12.0 (test matrix on Plone 6.2.3
+  with Python 3.10 to 3.14), move its metadata to `pyproject.toml`, convert
+  the documentation to Markdown and run the development environment on
+  Plone 6.2.3 with uv instead of buildout. Drop the buildout configuration,
+  the hand-written GitHub workflow and the empty robot test setup.
+  [remdub]
 
 
-1.1.4 (unreleased)
-------------------
+## 1.1.3 (2026-06-19)
 
-- Nothing changed yet.
-
-
-1.1.3 (2026-06-19)
-------------------
-
-- In case an error occurs, output more informations to the log.
+- In case an error occurs, output more information to the log.
   [gbastien]
 
-1.1.2 (2026-05-20)
-------------------
+
+## 1.1.2 (2026-05-20)
 
 - Added parameter `return_bool=False` to `utils.evaluateExpressionFor` and
   `utils._evaluateExpression` to ensure that returned result will always be
   a bool (`True` or `False`).
   [gbastien]
 
-1.1.1 (2025-08-28)
-------------------
+
+## 1.1.1 (2025-08-28)
 
 - Added `checkPermission` from `portal_membership` to base expression context.
   [gbastien]
 
-1.1.0 (2025-05-05)
-------------------
+
+## 1.1.0 (2025-05-05)
 
 - Added Plone 6.1 version in buildout.
   [sgeulette]
 
-1.0.0 (2024-09-18)
-------------------
+
+## 1.0.0 (2024-09-18)
 
 - Generated universal wheel version.
   [sgeulette]
 
-1.0a2 (2024-09-16)
-------------------
+
+## 1.0a2 (2024-09-16)
 
 - Fix dict iteration for Python 3
   [laulaz]
@@ -50,33 +67,31 @@ Changelog
 - Used pyenv in gha
   [sgeulette]
 
-1.0a1 (2023-06-21)
-------------------
+
+## 1.0a1 (2023-06-21)
 
 - Fix deprecated import AccessControl.class_init instead of App.class_init
   (Plone6 compatibility)
   [boulch]
-- Set simplier setup with Makefile
+- Set simpler setup with Makefile
   [sgeulette]
 
-0.14 (2021-06-29)
------------------
+
+## 0.14 (2021-06-29)
 
 - Fix pypi broken package
   [boulch]
 
 
-0.13 (2021-06-29)
------------------
+## 0.13 (2021-06-29)
 
 - Add uninstall profile
   [boulch]
-- Add Plone6 compatibily
+- Add Plone6 compatibility
   [boulch]
 
 
-0.12 (2021-04-20)
------------------
+## 0.12 (2021-04-20)
 
 - Add Transifex.net service integration to manage the translation process.
   [macagua]
@@ -90,26 +105,26 @@ Changelog
   a trusted expression handler instead the restricted python default.
   [gbastien]
 
-0.11 (2019-05-16)
------------------
+
+## 0.11 (2019-05-16)
 
 - Added parameter `raise_on_error` to `utils.evaluateExpressionFor` to raise an
   error when an exception occurs instead returning False.
   [gbastien]
 - Added method `TALCondition.complete_extra_expr_ctx` to the behavior to
   formalize the way to get `extra_expr_ctx` to avoid the `evaluate` method
-  to be overrided.
+  to be overridden.
   [gbastien]
 
-0.10 (2018-11-20)
------------------
+
+## 0.10 (2018-11-20)
 
 - Do not break if parameter `expression` passed to
   `utils._evaluateExpression` is None.
   [gbastien]
 
-0.9 (2018-10-12)
-----------------
+
+## 0.9 (2018-10-12)
 
 - Added new parameter `error_pattern=WRONG_TAL_CONDITION` to
   `utils.evaluateExpressionFor` and underlying `utils._evaluateExpression` to
@@ -117,22 +132,22 @@ Changelog
   expression evaluation.
   [gbastien]
 
-0.8 (2018-06-12)
-----------------
+
+## 0.8 (2018-06-12)
 
 - Mark elements using behavior with `ITALConditionable` interface so it behaves
   like element using the AT extender.
   [gbastien]
 
-0.7 (2017-03-22)
-----------------
+
+## 0.7 (2017-03-22)
 
 - Use CheckBoxWidget for `ITALCondition.roles_bypassing_talcondition` to ease
   selection when displaying several elements.
   [gbastien]
 
-0.6 (2016-01-12)
-----------------
+
+## 0.6 (2016-01-12)
 
 - Added parameter `empty_expr_is_true` to utils._evaluateExpression than may be True
   or False depending that we want an empty expression to be considered True or False.
@@ -141,8 +156,7 @@ Changelog
   [gbastien]
 
 
-0.5 (2015-12-17)
-----------------
+## 0.5 (2015-12-17)
 
 - Added method utils._evaluateExpression that receives an expression
   to evaluate, it is called by utils.evaluateExpressionFor.  This way, this
@@ -151,8 +165,7 @@ Changelog
   [gbastien]
 
 
-0.4 (2015-09-16)
-----------------
+## 0.4 (2015-09-16)
 
 - Make the tal_condition field larger (from 30 to 80) for the
   AT extender as well as for the DX behavior
@@ -163,8 +176,7 @@ Changelog
   [gbastien]
 
 
-0.3 (2015-07-14)
-----------------
+## 0.3 (2015-07-14)
 
 - Corrected default value
   [sgeulette]
@@ -172,8 +184,7 @@ Changelog
   [sgeulette]
 
 
-0.2 (2015-06-18)
-----------------
+## 0.2 (2015-06-18)
 
 - Added field `role_bypassing_talcondition` to define who can bypass the condition
   [anuyens]
@@ -181,8 +192,7 @@ Changelog
   [gbastien]
 
 
-0.1 (2015-06-01)
-----------------
+## 0.1 (2015-06-01)
 
 - Initial release.
   [IMIO]

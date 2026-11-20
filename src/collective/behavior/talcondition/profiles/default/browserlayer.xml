@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layers>
-  <layer
-    name="collective.behavior.talcondition"
-    interface="collective.behavior.talcondition.interfaces.ICollectiveBehaviorTalconditionLayer"
+  <layer interface="collective.behavior.talcondition.interfaces.ICollectiveBehaviorTalconditionLayer"
+         name="collective.behavior.talcondition"
   />
 </layers>

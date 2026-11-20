@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
 from zope.interface import Interface
@@ -10,6 +9,4 @@ class ICollectiveBehaviorTalconditionLayer(IDefaultBrowserLayer):
 
 
 class ITALConditionable(Interface):
-    """
-    Marker interface for tal_condition field schema extender
-    """
+    """Marker interface provided by content using the ITALCondition behavior."""

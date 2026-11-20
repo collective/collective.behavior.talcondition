@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-
 from AccessControl.class_init import InitializeClass
-from collective.behavior.talcondition import PLONE_VERSION
 from plone import api
 from Products.CMFCore.Expression import createExprContext
 from Products.CMFCore.Expression import Expression
@@ -9,8 +6,6 @@ from Products.PageTemplates.Expressions import createTrustedZopeEngine
 from Products.PageTemplates.Expressions import SecureModuleImporter
 
 import logging
-import unittest
-
 
 logger = logging.getLogger("collective.behavior.talcondition")
 WRONG_TAL_CONDITION = (
@@ -76,7 +71,7 @@ def _evaluateExpression(
     ctx.setGlobal("member", member)
     ctx.setGlobal("context", obj)
     ctx.setGlobal("portal", portal)
-    ctx.setGlobal('checkPermission', portal.portal_membership.checkPermission)
+    ctx.setGlobal("checkPermission", portal.portal_membership.checkPermission)
 
     for extra_key, extra_value in list(extra_expr_ctx.items()):
         ctx.setGlobal(extra_key, extra_value)
@@ -84,10 +79,10 @@ def _evaluateExpression(
     try:
         res = expr_handler(expression)(ctx)
     except Exception as e:
-        logger.warn(error_pattern.format(expression, obj.absolute_url(), str(e)))
-        logger.warn(str(ctx.__dict__))
+        logger.warning(error_pattern.format(expression, obj.absolute_url(), str(e)))
+        logger.warning(str(ctx.__dict__))
         if raise_on_error:
-            raise(e)
+            raise e
         else:
             res = False
     if return_bool:
@@ -159,23 +154,3 @@ class TrustedExpression(Expression):
 
 
 InitializeClass(Expression)
-
-
-@unittest.skipIf(PLONE_VERSION >= 5, "Archetypes extender skipped in Plone 5")
-def applyExtender(portal, meta_types):
-    """
-    We add some fields using archetypes.schemaextender to every given p_meta_types.
-    """
-    logger.info(
-        "Adding talcondition fields : updating the schema for meta_types %s"
-        % ",".join(meta_types)
-    )
-    at_tool = api.portal.get_tool("archetype_tool")
-    catalog = api.portal.get_tool("portal_catalog")
-    catalog.ZopeFindAndApply(
-        portal,
-        obj_metatypes=meta_types,
-        search_sub=True,
-        apply_func=at_tool._updateObject,
-    )
-    logger.info("Done!")

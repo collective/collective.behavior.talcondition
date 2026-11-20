@@ -1,5 +1,3 @@
-Contributors
-============
+# Contributors
 
 - Leonardo J. Caballero G., leonardocaballero@gmail.com
-
