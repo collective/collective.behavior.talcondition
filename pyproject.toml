@@ -10,7 +10,7 @@ requires = ["setuptools>=68.2,<83", "wheel"]
 
 [project]
 name = "collective.behavior.talcondition"
-version = "2.0.0"
+version = "2.0.1.dev0"
 description = "This package contains a Dexterity behavior to add a TAL condition on a content type."
 classifiers = [
     "Development Status :: 5 - Production/Stable",

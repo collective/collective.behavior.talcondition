@@ -2,6 +2,12 @@
 
 <!-- towncrier release notes start -->
 
+## 2.0.1 (unreleased)
+
+
+- Nothing changed yet.
+
+
 ## 2.0.0 (2026-11-20)
 
 - Use native namespace packages (PEP 420). Remove the `pkg_resources` namespace declarations.
