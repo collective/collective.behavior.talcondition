@@ -55,6 +55,7 @@ target = "plone"
 test = [
     "plone.app.contenttypes",
     "plone.app.testing",
+    "plone.base",
     "plone.browserlayer",
     "plone.testing",
     "zest.releaser[recommended]",

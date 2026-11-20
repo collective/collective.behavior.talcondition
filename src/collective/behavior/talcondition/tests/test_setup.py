@@ -1,7 +1,7 @@
 """Setup/installation tests for this package."""
 
 from collective.behavior.talcondition.testing import IntegrationTestCase
-from Products.CMFPlone.utils import get_installer
+from plone.base.utils import get_installer
 
 
 class TestInstall(IntegrationTestCase):

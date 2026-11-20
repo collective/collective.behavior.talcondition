@@ -10,7 +10,7 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from plone.testing import z2
+from plone.testing import zope
 
 import collective.behavior.talcondition
 import unittest
@@ -26,7 +26,7 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
         # Load ZCML
         self.loadZCML(package=collective.behavior.talcondition, name="testing.zcml")
         for p in self.products:
-            z2.installProduct(app, p)
+            zope.installProduct(app, p)
 
     def setUpPloneSite(self, portal):
         """Set up Plone."""
@@ -51,7 +51,7 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
     def tearDownZope(self, app):
         """Tear down Zope."""
         for p in reversed(self.products):
-            z2.uninstallProduct(app, p)
+            zope.uninstallProduct(app, p)
 
 
 FIXTURE = CollectiveBehaviorTalconditionLayer(name="FIXTURE")

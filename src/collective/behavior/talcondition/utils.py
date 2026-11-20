@@ -79,8 +79,8 @@ def _evaluateExpression(
     try:
         res = expr_handler(expression)(ctx)
     except Exception as e:
-        logger.warn(error_pattern.format(expression, obj.absolute_url(), str(e)))
-        logger.warn(str(ctx.__dict__))
+        logger.warning(error_pattern.format(expression, obj.absolute_url(), str(e)))
+        logger.warning(str(ctx.__dict__))
         if raise_on_error:
             raise e
         else:
