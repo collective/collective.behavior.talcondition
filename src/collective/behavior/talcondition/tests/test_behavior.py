@@ -1,4 +1,3 @@
-from collective.behavior.talcondition import PLONE_VERSION
 from collective.behavior.talcondition.behavior import ITALCondition
 from collective.behavior.talcondition.interfaces import ITALConditionable
 from collective.behavior.talcondition.testing import IntegrationTestCase
@@ -21,9 +20,6 @@ class TestBehavior(IntegrationTestCase):
 
     def test_behavior(self):
         """Test that once enabled, the behavior do the job."""
-        if PLONE_VERSION < 5:
-            # in Plone 4, a behavior attribute is not set (until saved ?)
-            self.assertFalse(hasattr(self.testitem, "tal_condition"))
         # it has a 'tal_condition' attribute
         self.assertTrue(hasattr(self.adapted, "tal_condition"))
         self.assertTrue(ITALConditionable.providedBy(self.portal.testitem))

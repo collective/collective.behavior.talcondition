@@ -2,11 +2,16 @@
 
 <!-- towncrier release notes start -->
 
-## 1.1.4 (unreleased)
+## 2.0.0 (unreleased)
 
 - Use native namespace packages (PEP 420). Remove the `pkg_resources` namespace declarations.
   This version needs Python 3.10 or later and Plone 6.2.
   [boulch]
+
+- Breaking: drop the Archetypes schema extender (`extender.py` and
+  `utils.applyExtender`) and the code for Plone 4 and 5, including the
+  `PLONE_VERSION` constant. Use 1.1.3 for older Plone versions.
+  [remdub]
 
 
 ## 1.1.3 (2026-06-19)

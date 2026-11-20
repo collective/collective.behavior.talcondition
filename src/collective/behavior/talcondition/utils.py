@@ -1,5 +1,4 @@
 from AccessControl.class_init import InitializeClass
-from collective.behavior.talcondition import PLONE_VERSION
 from plone import api
 from Products.CMFCore.Expression import createExprContext
 from Products.CMFCore.Expression import Expression
@@ -7,7 +6,6 @@ from Products.PageTemplates.Expressions import createTrustedZopeEngine
 from Products.PageTemplates.Expressions import SecureModuleImporter
 
 import logging
-import unittest
 
 logger = logging.getLogger("collective.behavior.talcondition")
 WRONG_TAL_CONDITION = (
@@ -156,23 +154,3 @@ class TrustedExpression(Expression):
 
 
 InitializeClass(Expression)
-
-
-@unittest.skipIf(PLONE_VERSION >= 5, "Archetypes extender skipped in Plone 5")
-def applyExtender(portal, meta_types):
-    """
-    We add some fields using archetypes.schemaextender to every given p_meta_types.
-    """
-    logger.info(
-        "Adding talcondition fields : updating the schema for meta_types %s"
-        % ",".join(meta_types)
-    )
-    at_tool = api.portal.get_tool("archetype_tool")
-    catalog = api.portal.get_tool("portal_catalog")
-    catalog.ZopeFindAndApply(
-        portal,
-        obj_metatypes=meta_types,
-        search_sub=True,
-        apply_func=at_tool._updateObject,
-    )
-    logger.info("Done!")

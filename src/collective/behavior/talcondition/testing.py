@@ -1,6 +1,5 @@
 """Base module for unittesting."""
 
-from collective.behavior.talcondition import PLONE_VERSION
 from plone import api
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -36,16 +35,8 @@ class CollectiveBehaviorTalconditionLayer(PloneSandboxLayer):
         wftool.setDefaultChain("simple_publication_workflow")
 
         # Install into Plone
-        if PLONE_VERSION < 5:
-            installer = portal["portal_quickinstaller"]
-            installer.installProduct("collective.behavior.talcondition")
         applyProfile(portal, "collective.behavior.talcondition:testing")
-
-        try:
-            applyProfile(portal, "plone.app.contenttypes:plone-content")
-        except KeyError:
-            # BBB Plone 4
-            pass
+        applyProfile(portal, "plone.app.contenttypes:plone-content")
 
         # Login and create some test content
         setRoles(portal, TEST_USER_ID, ["Manager"])

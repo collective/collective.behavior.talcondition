@@ -4,7 +4,6 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:plone="http://namespaces.plone.org/plone"
-    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="collective.behavior.talcondition"
     >
 
@@ -28,14 +27,6 @@
       provides=".behavior.ITALCondition"
       for="plone.dexterity.interfaces.IDexterityContent"
       marker=".interfaces.ITALConditionable"
-      />
-
-  <adapter
-      factory=".extender.TALConditionExtender"
-      provides="archetypes.schemaextender.interfaces.ISchemaExtender"
-      for=".interfaces.ITALConditionable"
-      name="collective.behavior.talcondition.extender"
-      zcml:condition="not-have plone-5"
       />
 
   <genericsetup:registerProfile

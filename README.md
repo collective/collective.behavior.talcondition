@@ -4,9 +4,9 @@
 
 # collective.behavior.talcondition
 
-This package works for dexterity (behavior) and archetypes (schema extender).
+This package provides a Dexterity behavior.
 
-It adds two fields on a content type or class:
+It adds two fields on a content type:
 
 - tal_condition : enter a [TAL expression](http://docs.zope.org/zope2/zope2book/AppendixC.html) that once evaluated will return 'True' if content should be available. By default, elements 'member', 'context' and 'portal' are available for the expression but the TAL expression context may be extended using the 'extra_expr_ctx' parameter.
 
@@ -16,9 +16,7 @@ It's then possible to use the 'evaluate' method to test the TAL condition.
 
 ## How to use it
 
-For AT you have to provide the ITALConditionable on your class (see testing.zcml).
-
-For DX you just have to activate the behavior on your content type.
+Activate the behavior on your content type.
 
 ## Plone versions
 
