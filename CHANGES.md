@@ -2,7 +2,7 @@
 
 <!-- towncrier release notes start -->
 
-## 2.0.0 (unreleased)
+## 2.0.0 (2026-11-20)
 
 - Use native namespace packages (PEP 420). Remove the `pkg_resources` namespace declarations.
   This version needs Python 3.10 or later and Plone 6.2.
