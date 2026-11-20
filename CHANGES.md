@@ -11,7 +11,7 @@
 
 ## 1.1.3 (2026-06-19)
 
-- In case an error occurs, output more informations to the log.
+- In case an error occurs, output more information to the log.
   [gbastien]
 
 
@@ -56,7 +56,7 @@
 - Fix deprecated import AccessControl.class_init instead of App.class_init
   (Plone6 compatibility)
   [boulch]
-- Set simplier setup with Makefile
+- Set simpler setup with Makefile
   [sgeulette]
 
 
@@ -70,7 +70,7 @@
 
 - Add uninstall profile
   [boulch]
-- Add Plone6 compatibily
+- Add Plone6 compatibility
   [boulch]
 
 
@@ -96,7 +96,7 @@
   [gbastien]
 - Added method `TALCondition.complete_extra_expr_ctx` to the behavior to
   formalize the way to get `extra_expr_ctx` to avoid the `evaluate` method
-  to be overrided.
+  to be overridden.
   [gbastien]
 
 

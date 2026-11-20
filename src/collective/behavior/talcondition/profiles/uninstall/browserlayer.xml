@@ -1,7 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <layers>
-  <layer
-    name="collective.behavior.talcondition"
-    interface="collective.behavior.talcondition.interfaces.ICollectiveBehaviorTalconditionLayer" remove="True"
+  <layer interface="collective.behavior.talcondition.interfaces.ICollectiveBehaviorTalconditionLayer"
+         name="collective.behavior.talcondition"
+         remove="True"
   />
 </layers>

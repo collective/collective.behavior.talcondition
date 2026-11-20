@@ -1,8 +1,9 @@
-# -*- coding: utf-8 -*-
 from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import ISchemaExtender
-from collective.behavior.talcondition.interfaces import ICollectiveBehaviorTalconditionLayer
+from collective.behavior.talcondition.interfaces import (
+    ICollectiveBehaviorTalconditionLayer,
+)
 from collective.behavior.talcondition.interfaces import ITALConditionable
 from Products.Archetypes.public import LinesField
 from Products.Archetypes.public import MultiSelectionWidget
@@ -18,11 +19,11 @@ class TALConditionStringField(ExtensionField, StringField):
 
 class TALConditionLinesField(ExtensionField, LinesField):
     """A Lines field that will contain all roles
-       that will bypass the tal condition."""
+    that will bypass the tal condition."""
 
 
 @implementer(ISchemaExtender, IBrowserLayerAwareExtender)
-class TALConditionExtender(object):
+class TALConditionExtender:
     """TALCondition class"""
 
     adapts(ITALConditionable)
@@ -31,39 +32,42 @@ class TALConditionExtender(object):
 
     fields = [
         TALConditionStringField(
-            'tal_condition',
+            "tal_condition",
             required=False,
-            default='',
+            default="",
             searchable=False,
             languageIndependent=True,
             widget=StringWidget(
-                label=(u"TAL condition expression"),
-                description=(u'Enter a TAL expression that once evaluated '
-                             'will return \'True\' if content should be '
-                             'available. Elements \'member\', \'context\' '
-                             'and \'portal\' are available for the '
-                             'expression.'),
-                i18n_domain='collective.behavior.talcondition',
+                label=("TAL condition expression"),
+                description=(
+                    "Enter a TAL expression that once evaluated "
+                    "will return 'True' if content should be "
+                    "available. Elements 'member', 'context' "
+                    "and 'portal' are available for the "
+                    "expression."
+                ),
+                i18n_domain="collective.behavior.talcondition",
                 size="80",
             ),
         ),
         TALConditionLinesField(
-            'roles_bypassing_talcondition',
+            "roles_bypassing_talcondition",
             required=False,
             searchable=False,
             languageIndependent=True,
             widget=MultiSelectionWidget(
                 size=10,
-                label=(u'Roles that will bypass the TAL condition'),
-                description=(u'Choose the different roles for which the TAL '
-                             'condition will not be evaluated and always '
-                             'considered \'True\'.'
-                             ),
-                i18n_domain='collective.behavior.talcondition',
+                label=("Roles that will bypass the TAL condition"),
+                description=(
+                    "Choose the different roles for which the TAL "
+                    "condition will not be evaluated and always "
+                    "considered 'True'."
+                ),
+                i18n_domain="collective.behavior.talcondition",
             ),
             enforceVocabulary=True,
             multiValued=1,
-            vocabulary_factory='plone.app.vocabularies.Roles',
+            vocabulary_factory="plone.app.vocabularies.Roles",
         ),
     ]
 

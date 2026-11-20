@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 """Setup/installation tests for this package."""
+
 from collective.behavior.talcondition import PLONE_VERSION
 from collective.behavior.talcondition.testing import IntegrationTestCase
 from plone import api
-
 
 if PLONE_VERSION >= 5:
     from Products.CMFPlone.utils import get_installer
@@ -34,7 +33,9 @@ class TestInstall(IntegrationTestCase):
     # browserlayer.xml
     def test_browserlayer(self):
         """Test that ICollectiveBehaviorTalconditionLayer is registered."""
-        from collective.behavior.talcondition.interfaces import ICollectiveBehaviorTalconditionLayer
+        from collective.behavior.talcondition.interfaces import (
+            ICollectiveBehaviorTalconditionLayer,
+        )
         from plone.browserlayer import utils
 
         self.assertIn(ICollectiveBehaviorTalconditionLayer, utils.registered_layers())

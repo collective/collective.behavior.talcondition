@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from AccessControl.class_init import InitializeClass
 from collective.behavior.talcondition import PLONE_VERSION
 from plone import api
@@ -10,7 +8,6 @@ from Products.PageTemplates.Expressions import SecureModuleImporter
 
 import logging
 import unittest
-
 
 logger = logging.getLogger("collective.behavior.talcondition")
 WRONG_TAL_CONDITION = (
@@ -76,7 +73,7 @@ def _evaluateExpression(
     ctx.setGlobal("member", member)
     ctx.setGlobal("context", obj)
     ctx.setGlobal("portal", portal)
-    ctx.setGlobal('checkPermission', portal.portal_membership.checkPermission)
+    ctx.setGlobal("checkPermission", portal.portal_membership.checkPermission)
 
     for extra_key, extra_value in list(extra_expr_ctx.items()):
         ctx.setGlobal(extra_key, extra_value)

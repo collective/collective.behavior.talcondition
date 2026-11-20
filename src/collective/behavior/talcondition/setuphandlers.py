@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 def isNotCurrentProfile(context):
     return context.readDataFile("collectivebehaviortalcondition_marker.txt") is None
 
